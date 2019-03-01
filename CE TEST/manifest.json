@@ -1,0 +1,14 @@
+{
+   "name" : "Test",
+   "version" : "0.1",
+   "description" : "Test",
+   "permissions" : ["storage", "activeTab", "downloads", "declarativeContent"],
+   "background" : {
+     "scripts" : ["background.js"],
+     "persistent" : false
+   },
+   "browser_action" : {
+     "default_popup" : "popup.html"
+   },
+    "manifest_version" : 2
+}
