@@ -9,16 +9,16 @@ from watchdog.events import LoggingEventHandler
 
 
 def Installpip():
-	subprocess.call("py -m pip install PyYAML", shell = True)
-	subprocess.call("py -m pip install argh", shell = True)
-	subprocess.call("py -m pip install argparse", shell = True)
-	subprocess.call("py -m pip install pathtools", shell = True)
-	subprocess.call("py -m pip install virustotal-api", shell = True)
-	subprocess.call("py -m pip install watchdog", shell = True)
-	subprocess.call("py -m pip install opencv-python", shell = True)
-	subprocess.call("py -m pip install flask", shell = True)
-	subprocess.call("py -m pip install flask-socketio", shell = True)
-	subprocess.call("py -m pip install mss", shell = True)
+	subprocess.call("python3 -m pip install PyYAML", shell = True)
+	subprocess.call("python3 -m pip install argh", shell = True)
+	subprocess.call("python3 -m pip install argparse", shell = True)
+	subprocess.call("python3 -m pip install pathtools", shell = True)
+	subprocess.call("python3 -m pip install virustotal-api", shell = True)
+	subprocess.call("python3 -m pip install watchdog", shell = True)
+	subprocess.call("python3 -m pip install opencv-python", shell = True)
+	subprocess.call("python3 -m pip install flask", shell = True)
+	subprocess.call("python3 -m pip install flask-socketio", shell = True)
+	subprocess.call("python3 -m pip install mss", shell = True)
 
 
 def FileWatcher():
