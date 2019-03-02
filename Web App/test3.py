@@ -15,7 +15,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
-client = gspread.authorize(creds)
+
 serverIP = socket.gethostbyname(socket.gethostname())
 reportUrl = 'https://www.virustotal.com/vtapi/v2/file/report'
 scanUrl = 'https://www.virustotal.com/vtapi/v2/file/scan'
@@ -28,6 +28,7 @@ def index():
     return render_template('index.html')
 @app.route('/users')
 def users():
+    client = gspread.authorize(creds)   
     q = 0
     counter = 0
     oldmin = 0
@@ -92,6 +93,7 @@ def users():
     return render_template('users.html')
 @app.route('/admin')
 def admin():
+    client = gspread.authorize(creds)
     q = 0
     counter = 0
     oldmin = 0
@@ -146,40 +148,41 @@ def mobileUsers():
     return render_template('mobileUsers.html')
 @app.route('/mobilescanresults')
 def mobileScan():
-    # q = 0
-    # # jsdata = request.form['javascript_data']
-    # # print(ipadd)
-    # # print(jsdata)
-    # ip = request.args.get('ip')
-    # ipIsThere = False
-    # for spreadsheet in client.openall():
-    #     # print(spreadsheet.title)
-    #     # titles_list.append(spreadsheet.title)
-    #     if spreadsheet.title == ip:
-    #     # #     # print(spreadsheet.title + " " + spreadsheet.id)
-    #         # client.del_spreadsheet(spreadsheet.id)
-    #         sh = client.open(ip)
-    #         ipIsThere = True
-    # # sh = client.open(ip)
-    #         for s in sh.worksheets():
-    #             sheet = sh.get_worksheet(q)
-    #             name = sheet.cell(1,1).value
-    #             day = sheet.cell(1,2).value
-    #             month = sheet.cell(1,3).value
-    #             year = sheet.cell(1,4).value
-    #             h = sheet.cell(1,5).value
-    #             m = sheet.cell(1,6).value
-    #             s = sheet.cell(1,7).value
-    #             link = sheet.cell(1,8).value
-    #             detected = sheet.cell(1,9).value
-    #             total = sheet.cell(1,10).value
-    #             message = Markup("<tr id='content'><td id='date'><a href='" + link + "'>" + month + "-" + day + "-" + year + "</a></td><td id='time'><a href='" + link + "'>" + h + ':' + m + ':' + s + "</a></td><td id='Name'><a href='" + link + "'>" + name + "</a></td></tr>")
-    #             flash(message)
-    #             # print('hi')
-    #             q += 1
-    # if ipIsThere == False:
-    #     message = Markup("<tr id='content'><td id='name'>No Files Downloaded yet</td></tr>")
-    #     flash(message)
+    client = gspread.authorize(creds)
+    q = 0
+    # jsdata = request.form['javascript_data']
+    # print(ipadd)
+    # print(jsdata)
+    ip = request.args.get('ip')
+    ipIsThere = False
+    for spreadsheet in client.openall():
+        # print(spreadsheet.title)
+        # titles_list.append(spreadsheet.title)
+        if spreadsheet.title == ip:
+        # #     # print(spreadsheet.title + " " + spreadsheet.id)
+            # client.del_spreadsheet(spreadsheet.id)
+            sh = client.open(ip)
+            ipIsThere = True
+    # sh = client.open(ip)
+            for s in sh.worksheets():
+                sheet = sh.get_worksheet(q)
+                name = sheet.cell(1,1).value
+                day = sheet.cell(1,2).value
+                month = sheet.cell(1,3).value
+                year = sheet.cell(1,4).value
+                h = sheet.cell(1,5).value
+                m = sheet.cell(1,6).value
+                s = sheet.cell(1,7).value
+                link = sheet.cell(1,8).value
+                detected = sheet.cell(1,9).value
+                total = sheet.cell(1,10).value
+                message = Markup("<tr id='content'><td id='date'><a href='" + link + "'>" + month + "-" + day + "-" + year + "</a></td><td id='time'><a href='" + link + "'>" + h + ':' + m + ':' + s + "</a></td><td id='Name'><a href='" + link + "'>" + name + "</a></td></tr>")
+                flash(message)
+                # print('hi')
+                q += 1
+    if ipIsThere == False:
+        message = Markup("<tr id='content'><td id='name'>No Files Downloaded yet</td></tr>")
+        flash(message)
     return render_template('mobileScanResults.html')
     # @app.route('/')
 # def upload():
@@ -188,6 +191,7 @@ def mobileScan():
 @app.route('/uploader', methods = ['GET', 'POST'])
 def uploader():
     if request.method == 'POST':
+        client = gspread.authorize(creds)
         f = request.files['file']
         f.save(f.filename)
         ip = request.args.get('ip')
@@ -313,6 +317,7 @@ def userSelect():
     return render_template('userSelect.html')
 @app.route('/mobileUserSelect')
 def mobileUserSelect():
+    client = gspread.authorize(creds)
     for spreadsheet in client.openall():
         if spreadsheet.title != 'VulnData':
             message = Markup("<tr id='content'><td id='ipadd' name='" + spreadsheet.title + "' onclick='redir(this)'>" + spreadsheet.title + "</td></tr>")
@@ -329,6 +334,7 @@ def mobileUserSelect():
 # print(jsdata)
 @app.route('/scanResults')
 def scanResults():
+    client = gspread.authorize(creds)
     q = 0
     # jsdata = request.form['javascript_data']
     # print(ipadd)
@@ -371,6 +377,7 @@ def handle_my_custom_event( json ):
 
 @socketio.on('url')
 def handle_my_custom_event1(url, name, ip):
+    client = gspread.authorize(creds)
     urllib.request.urlretrieve(url, name)
     # print(ip)
     # print(name)
