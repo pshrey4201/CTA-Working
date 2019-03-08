@@ -26,71 +26,74 @@ socketio = SocketIO(app)
 @app.route('/')
 def index():
     return render_template('test.html')
+@app.route('/users2')
+def users2():
+    return render_template('users2.html')
 @app.route('/users')
 def users():
-    client = gspread.authorize(creds)
-    q = 0
-    counter = 0
-    oldmin = 0
-    oldhour = 0
-    oldsec = 0
-    dayCounter = 0
-    # jsdata = request.form['javascript_data']
-    # print(ipadd)
-    # print(jsdata)
-    ip = request.args.get('ip')
-    ipIsThere = False
-    for spreadsheet in client.openall():
-        # print(spreadsheet.title)
-        # titles_list.append(spreadsheet.title)
-        if spreadsheet.title == ip:
-        # #     # print(spreadsheet.title + " " + spreadsheet.id)
-            # client.del_spreadsheet(spreadsheet.id)
-            sh = client.open(ip)
-            ipIsThere = True
-            for s in sh.worksheets():
-                sheet = sh.get_worksheet(q)
-                day = sheet.cell(1,2).value
-                month = sheet.cell(1,3).value
-                year = sheet.cell(1,4).value
-                h = sheet.cell(1,5).value
-                m = sheet.cell(1,6).value
-                s = sheet.cell(1,7).value
-                if int(datetime.datetime.now().strftime("%m")) - int(month) <= 1 and int(datetime.datetime.now().strftime("%d")) - int(day) <= 1 and int(datetime.datetime.now().strftime("%H")) - int(h) <= 24:
-                    counter += 1
-                    if int(datetime.datetime.now().strftime("%d")) - int(day) <= 1 and int(datetime.datetime.now().strftime("%H")) - int(h) <= 24:
-                        dayCounter += 1
-                    # print(counter)
-                    # print(oldhour)
-                    if int(h) >= oldhour and int(m) >= oldmin:
-                        # print(m)
-                        oldmin = int(m)
-                        oldhour = int(h)
-                        name = sheet.cell(1,1).value
-                        link = sheet.cell(1,8).value
-                        detected = sheet.cell(1,9).value
-                        total = sheet.cell(1,10).value
-                        # print(oldmin)
-                q += 1
-            message = Markup("<li>User Statistics</li><li>Number of File Scanned in the Past 24 Hours: " + str(dayCounter) + "</li><li>Number of Files Scanned in the Past Month: " + str(counter) + "</li><li>Last File Scanned: " + name + "</li><li>Number of Antiviruses used: " + total + "</li><li>Number of Antiviruses detecting Virus: " + detected + "</li>")
-            flash(message)
-            # sheet = sh.add_worksheet(title=name + ' ' + month + '-' + day + '-' + year + ': ' + h + ":" + m + ":" + s, rows="100", cols="100")
-        # #     print(sh.sheet1)
-        # else:
-        #     sh = client.create(ip)
-        #     sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
-
-    # for titles in titles_list:
-    #     if titles == ip:
+    # client = gspread.authorize(creds)
+    # q = 0
+    # counter = 0
+    # oldmin = 0
+    # oldhour = 0
+    # oldsec = 0
+    # dayCounter = 0
+    # # jsdata = request.form['javascript_data']
+    # # print(ipadd)
+    # # print(jsdata)
+    # ip = request.args.get('ip')
+    # ipIsThere = False
+    # for spreadsheet in client.openall():
+    #     # print(spreadsheet.title)
+    #     # titles_list.append(spreadsheet.title)
+    #     if spreadsheet.title == ip:
+    #     # #     # print(spreadsheet.title + " " + spreadsheet.id)
+    #         # client.del_spreadsheet(spreadsheet.id)
+    #         sh = client.open(ip)
+    #         ipIsThere = True
+    #         for s in sh.worksheets():
+    #             sheet = sh.get_worksheet(q)
+    #             day = sheet.cell(1,2).value
+    #             month = sheet.cell(1,3).value
+    #             year = sheet.cell(1,4).value
+    #             h = sheet.cell(1,5).value
+    #             m = sheet.cell(1,6).value
+    #             s = sheet.cell(1,7).value
+    #             if int(datetime.datetime.now().strftime("%m")) - int(month) <= 1 and int(datetime.datetime.now().strftime("%d")) - int(day) <= 1 and int(datetime.datetime.now().strftime("%H")) - int(h) <= 24:
+    #                 counter += 1
+    #                 if int(datetime.datetime.now().strftime("%d")) - int(day) <= 1 and int(datetime.datetime.now().strftime("%H")) - int(h) <= 24:
+    #                     dayCounter += 1
+    #                 # print(counter)
+    #                 # print(oldhour)
+    #                 if int(h) >= oldhour and int(m) >= oldmin:
+    #                     # print(m)
+    #                     oldmin = int(m)
+    #                     oldhour = int(h)
+    #                     name = sheet.cell(1,1).value
+    #                     link = sheet.cell(1,8).value
+    #                     detected = sheet.cell(1,9).value
+    #                     total = sheet.cell(1,10).value
+    #                     # print(oldmin)
+    #             q += 1
+    #         message = Markup("<li>User Statistics</li><li>Number of File Scanned in the Past 24 Hours: " + str(dayCounter) + "</li><li>Number of Files Scanned in the Past Month: " + str(counter) + "</li><li>Last File Scanned: " + name + "</li><li>Number of Antiviruses used: " + total + "</li><li>Number of Antiviruses detecting Virus: " + detected + "</li>")
+    #         flash(message)
+    #         # sheet = sh.add_worksheet(title=name + ' ' + month + '-' + day + '-' + year + ': ' + h + ":" + m + ":" + s, rows="100", cols="100")
+    #     # #     print(sh.sheet1)
+    #     # else:
+    #     #     sh = client.create(ip)
+    #     #     sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
     #
-            # sh = client.open(ip)
-            # ipIsThere = True
-    if ipIsThere == False:
-        message = Markup("<li>Download a file on Google Chrome or use the file uploader for this module to work</li>")
-        flash(message)
-    # print(oldhour)
-    # print(oldmin)
-    return render_template('users.html')
+    # # for titles in titles_list:
+    # #     if titles == ip:
+    # #
+    #         # sh = client.open(ip)
+    #         # ipIsThere = True
+    # if ipIsThere == False:
+    #     message = Markup("<li>Download a file on Google Chrome or use the file uploader for this module to work</li>")
+    #     flash(message)
+    # # print(oldhour)
+    # # print(oldmin)
+    return render_template('userTest.html')
 @app.route('/admin')
 def admin():
     client = gspread.authorize(creds)
