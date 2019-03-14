@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>User Panel Test 2</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/users2.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100|Eczar" rel="stylesheet">
   </head>
   <body>
   <script src="{{ url_for('static',filename='js/users2.js') }}"></script>
@@ -17,6 +17,15 @@
       <li></li>
     </ul>
   </div>
-  <div id="summaryCard"></div>
+  <div id="summaryCard">
+    <p>Last 24 Hours</p>
+    <ul>
+      <li>Recent File Scanned: </li>
+      <li>No. of Scans: </li>
+      <li>No. of Detected: </li>
+      <li>File Size: </li>
+    </ul>
+  </div>
+  <div id="rightCard"></div>
   </body>
 </html>
