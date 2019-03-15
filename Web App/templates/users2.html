@@ -8,25 +8,35 @@
   </head>
   <body>
   <script src="{{ url_for('static',filename='js/users2.js') }}"></script>
-  <div id="navbar">
-    <ul>
-      <li onclick="window.location.href='/'"></li>
-      <li onclick="window.location.href='/users'"></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+  <div class="grid-container">
+      <div class="col-1 row-1">
+        <div id="navbar">
+          <ul>
+            <li onclick="window.location.href='/'"></li>
+            <li onclick="window.location.href='/users'"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-5 row-2">
+        <div id="usCard"></div>
+      </div>
+      <div class="col-5 row-2">
+        <div id="tfCard">
+          <p>Last 24 Hours</p>
+          <ul>
+            <li>Recent File Scanned: </li>
+            <li>No. of Scans: </li>
+            <li>No. of Detected: </li>
+            <li>File Size: </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-5 row-2">
+        <div id="rightCard"></div>
+      </div>
   </div>
-  <div id="usCard"></div>
-  <div id="tfCard">
-    <p>Last 24 Hours</p>
-    <ul>
-      <li>Recent File Scanned: </li>
-      <li>No. of Scans: </li>
-      <li>No. of Detected: </li>
-      <li>File Size: </li>
-    </ul>
-  </div>
-  <div id="rightCard"></div>
   </body>
 </html>

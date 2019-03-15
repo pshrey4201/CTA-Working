@@ -1,27 +1,81 @@
 body{
-  background-color: #045D56;
+  background-color: #424250;
   /* filter: invert(); */
   overflow: hidden;
   font-family: 'Roboto', sans-serif;
   /* margin-left: 3vw;
   margin-right: 3vw; */
 }
+.grid-container{
+    width: 100vw;
+    height: 100vh;
+    /* margin-left: 24px;
+    margin-right: 24px; */
+    /* max-width: 1200px; */
+}
+/* .grid-container *{box-sizing: border-box;} */
+/*-- our cleafix hack -- */
+.row:before,
+.row:after {
+    content:"";
+    display: table ;
+    clear:both;
+}
+/* .row-1{
+  height: 100%;
+}
+.row-2{
+  height: 50%;
+} */
+[class*='col-'] {
+    float: left;
+    min-height: 1px;
+    width: 16.66%;
+    /*-- our gutter -- */
+    padding: 12px;
+    background-color: rgba(255,255,255,0);
+}
+.row-1{
+  height: 100%;
+}
+.row-2{
+  height: 45%;
+}
+.col-1{ width: 8.33%; }
+.col-2{ width: 16.66%; }
+.col-3{ width: 25%;    }
+.col-4{ width: 33.32%; }
+.col-5{ width: 41.65%; }
+.col-6{ width: 49.98%; }
+
+.outline, .outline *{
+    outline: 1px solid #F6A1A1;
+}
+
+/*-- some extra column content styling --*/
+[class*='col-'] > p {
+ background-color: #FFC2C2;
+ padding: 0;
+ margin: 0;
+ text-align: center;
+ color: white;
+}
 #navbar{
-  width: 7.5vw;
-  height: 100vh;
-  position: fixed;
-  top: 0vh;
-  left: 0vw;
-  background-color: #212121;
+  /* width: 7.5vw; */
+  height: 100%;
+  /* position: fixed; */
+  /* top: 0vh; */
+  /* left: 0vw; */
+  background-color: rgba(255,255,255,0);
   color: white;
   z-index: 5;
   /* display: table; */
   filter: drop-shadow(0px 0px 2vh #222222);
-  transition: width .25s ease-in;
+  /* transition: width .25s ease-in; */
 }
-#navbar:hover{
+/* #navbar:hover{
   width: 20vw;
-}
+} */
 #navbar ul{
   /* display: table; */
   width: 100%;
@@ -50,15 +104,15 @@ body{
   background-color: rgba(255,255,255,0.25);
 }
 #usCard{
-  position: absolute;
-  width: 42.5vw;
-  height: 46.5vh;
-  top: 2.5vh;
-  left: 9.5vw;
+  /* position: absolute; */
+  /* width: 42.5vw; */
+  height: 100%;
+  /* top: 2.5vh; */
+  /* left: 9.5vw; */
   filter: drop-shadow(0px 0px 2vh #222222);
   background-color: #222222;
-  border: solid .1px yellow;
-  border-radius: 5px;
+  /* border: solid .1px yellow; */
+  /* border-radius: 5px; */
 }
 #usCard p{
   font-family: 'Eczar', serif;
@@ -66,7 +120,7 @@ body{
   font-size: 4.5vh;
   text-align: center;
   margin: 0;
-  padding: 1vh 0vw 1vh 0vw;
+  /* padding: 1vh 0vw 1vh 0vw; */
   color: white;
 }
 #usCard ul{
@@ -90,19 +144,19 @@ body{
   /* vertical-align: middle; */
   /* margin: 0; */
   text-align: center;
-  padding: 1vh 0vw 1vh 0vw;
+  /* padding: 1vh 0vw 1vh 0vw; */
   cursor: pointer;
 }
 #tfCard{
-  position: absolute;
-  width: 42.5vw;
-  height: 46.5vh;
-  top: 51.5vh;
-  left: 9.5vw;
+  /* position: absolute; */
+  /* width: 42.5vw; */
+  height: 100%;
+  /* top: 51.5vh; */
+  /* left: 9.5vw; */
   filter: drop-shadow(0px 0px 2vh #222222);
   background-color: #222222;
-  border: solid .1px yellow;
-  border-radius: 5px;
+  /* border: solid .1px yellow; */
+  /* border-radius: 5px; */
 }
 #tfCard p{
   font-family: 'Eczar', serif;
@@ -138,13 +192,13 @@ body{
   cursor: pointer;
 }
 #rightCard{
-  position: absolute;
-  width: 42.5vw;
-  height: 42.5vh;
-  top: 2.5vh;
-  left: 54vw;
+  /* position: absolute; */
+  /* width: 42.5vw; */
+  height: 100%;
+  /* top: 2.5vh; */
+  /* left: 54vw; */
   filter: drop-shadow(0px 0px 2vh #222222);
   background-color: #222222;
-  border: solid .1px yellow;
-  border-radius: 5px;
+  /* border: solid .1px yellow; */
+  /* border-radius: 5px; */
 }
