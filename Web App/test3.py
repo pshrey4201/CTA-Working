@@ -1,4 +1,6 @@
-from flask import Flask, render_template, Response, request, Markup, flash, send_file
+from flask import Flask, render_template, Response, request, Markup, flash
+from flask_mysqldb import MySQL
+import yaml
 from camera import VideoCamera
 import os
 from werkzeug import secure_filename
@@ -22,10 +24,35 @@ scanUrl = 'https://www.virustotal.com/vtapi/v2/file/scan'
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 apikey = '53074e57c64d3b33a36d8bd638319b23295b20be787922febe3e6c6bc8f5ca1c'
-socketio = SocketIO(app)
-@app.route('/')
+db = yaml.load(open('db.yaml'))
+app.config['MYSQL_HOST'] = db['mysql_host']
+app.config['MYSQL_USER'] = db['mysql_user']
+app.config['MYSQL_PASSWORD'] = db['mysql_password']
+app.config['MYSQL_DB'] = db['mysql_db']
+#Creates the mysql configuration
+mysql = MySQL(app)
+
+#When you add a route it assumes the user wants to go to the corrosponding directory/routes to the file
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('test.html')
+    #This will return the text test
+    if request.method == 'POST':
+        #Gets the form data
+        userDetails = request.form
+        name = userDetails['name'] #This is the form value for the index page
+        email = userDetails['email'] #This is the form value for the index page
+        username = userDetails['user']
+        cur = mysql.connection.cursor()
+        #creates the connection
+        cur.execute("INSERT INTO users(name, email, user) VALUES(%s, %s, %s)",(name,email,user))
+        mysql.connection.commit()
+        cur.close()
+        return 'success'
+    return render_template('index.html')
+socketio = SocketIO(app)
+# @app.route('/')
+# def index():
+#     return render_template('test.html')
 @app.route('/users2')
 def users2():
     return render_template('users2.html')
