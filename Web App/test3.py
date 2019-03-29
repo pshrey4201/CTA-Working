@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request, Markup, flash
+from flask import Flask, render_template, Response, request, Markup, flash, send_file
 from camera import VideoCamera
 import os
 from werkzeug import secure_filename
@@ -197,112 +197,112 @@ def uploader():
         client = gspread.authorize(creds)
         f = request.files['file']
         f.save(f.filename)
-        ip = request.args.get('ip')
-        day = datetime.datetime.now().strftime("%d")
-        month = datetime.datetime.now().strftime("%m")
-        year = datetime.datetime.now().strftime("%y")
-        h = datetime.datetime.now().strftime("%H")
-        m = datetime.datetime.now().strftime("%M")
-        s = datetime.datetime.now().strftime("%S")
-        # print(date)
-        # print(t)
-        # print('Hi')
-        params = {'apikey': apikey}
-        files = {'file': (f.filename, open(f.filename, 'rb'))}
-        response = requests.post(scanUrl, files=files, params=params)
-        # print(response.json())
-        resource = response.json()['resource']
-        # print(resource)
-        params = {'apikey': apikey, 'resource': resource}
-        response = requests.get(reportUrl, params=params)
-        # print(response.json())
-        # sh = client.open(ip)
-        # sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
-        # titles_list = []
-        ipIsThere = False
-        queue = "Your resource is queued for analysis"
-        while response.json()['verbose_msg'] == queue:
-            params = {'apikey': apikey, 'resource': resource}
-            response = requests.get(reportUrl, params=params)
-            time.sleep(25)
-        if response.json()['verbose_msg'] != queue:
-            for spreadsheet in client.openall():
-                # print(spreadsheet.title)
-                # titles_list.append(spreadsheet.title)
-                if spreadsheet.title == ip:
-                # #     # print(spreadsheet.title + " " + spreadsheet.id)
-                    # client.del_spreadsheet(spreadsheet.id)
-                    sh = client.open(ip)
-                    ipIsThere = True
-                    sheet = sh.add_worksheet(title=f.filename + ' ' + month + '-' + day + '-' + year + ': ' + h + ":" + m + ":" + s, rows="100", cols="100")
-                # #     print(sh.sheet1)
-                # else:
-                #     sh = client.create(ip)
-                #     sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
-
-            # for titles in titles_list:
-            #     if titles == ip:
-            #
-                    # sh = client.open(ip)
-                    # ipIsThere = True
-            if ipIsThere == False:
-                sh = client.create(ip)
-                # sh.share('calebkremer09@gmail.com', perm_type='user', role='writer')
-                # sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
-                sheet = sh.add_worksheet(title=f.filename + ' ' + month + '-' + day + '-' + year + ': ' + h + ':' + m + ':' + s, rows="100", cols="100")
-                # sh.del_worksheet('Sheet1')
-            # file = open("testfile.json","w")
-            # file.write(repr(response.json()))
-            # file.close()
-
-            # total = str(response.json()['total'])
-            link = response.json()['permalink']
-            detected = response.json()['positives']
-            tScans = response.json()['total']
-            sheet.update_cell(1, 1, f.filename)
-            sheet.update_cell(1, 2, day)
-            sheet.update_cell(1, 3, month)
-            sheet.update_cell(1, 4, year)
-            sheet.update_cell(1, 5, h)
-            sheet.update_cell(1, 6, m)
-            sheet.update_cell(1, 7, s)
-            sheet.update_cell(1, 8, link)
-            sheet.update_cell(1, 9, detected)
-            sheet.update_cell(1, 10, tScans)
-            # response.json()['scans'][0][0]
-            # print(response.json()['scans'][0]['detected'])
-            z = 3
-            y = 2
-            w = 2
-            # for a in response.json():
-            #     if a == 'scans':
-            #         sheet.update_cell(w,1,a)
-            #         for x in response.json()[a]:
-            #             # print(x)
-            #             sheet.update_cell(z, 1, x)
-            #             for i in response.json()[a][x]:
-            #                 sheet.update_cell(z, y, i + ": ")
-            #                 sheet.update_cell(z, y + 1, response.json()[a][x][i])
-            #                 y += 2
-            #             z += 1
-            #             y = 2
-            #             time.sleep(10)
-            #         w = z + 1
-            #     else:
-            #         sheet.update_cell(w,1,a)
-            #         sheet.update_cell(w,2,response.json(a))
-            #         w += 1
-
-                    # print(response.json()['scans'][x][i])
-            # sheet = response.json()
-            # stuff = sheet.get_all_records()
-            # print(stuff)
-            # print(response.json())
-            # print(response.json()['permalink'])
-            message = Markup("<p>Upload Completed. This page will automatically reload in a few moments to show the results of the scan.</p><script>window.location.href='/scanResults?ip=" + ip + "';</script>")
-            flash(message)
-        else:
-            message = Markup("<div><p>Upload Completed! Come later for the scan results</p></div>")
+        # ip = request.args.get('ip')
+        # day = datetime.datetime.now().strftime("%d")
+        # month = datetime.datetime.now().strftime("%m")
+        # year = datetime.datetime.now().strftime("%y")
+        # h = datetime.datetime.now().strftime("%H")
+        # m = datetime.datetime.now().strftime("%M")
+        # s = datetime.datetime.now().strftime("%S")
+        # # print(date)
+        # # print(t)
+        # # print('Hi')
+        # params = {'apikey': apikey}
+        # files = {'file': (f.filename, open(f.filename, 'rb'))}
+        # response = requests.post(scanUrl, files=files, params=params)
+        # # print(response.json())
+        # resource = response.json()['resource']
+        # # print(resource)
+        # params = {'apikey': apikey, 'resource': resource}
+        # response = requests.get(reportUrl, params=params)
+        # # print(response.json())
+        # # sh = client.open(ip)
+        # # sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
+        # # titles_list = []
+        # ipIsThere = False
+        # queue = "Your resource is queued for analysis"
+        # while response.json()['verbose_msg'] == queue:
+        #     params = {'apikey': apikey, 'resource': resource}
+        #     response = requests.get(reportUrl, params=params)
+        #     time.sleep(25)
+        # if response.json()['verbose_msg'] != queue:
+        #     for spreadsheet in client.openall():
+        #         # print(spreadsheet.title)
+        #         # titles_list.append(spreadsheet.title)
+        #         if spreadsheet.title == ip:
+        #         # #     # print(spreadsheet.title + " " + spreadsheet.id)
+        #             # client.del_spreadsheet(spreadsheet.id)
+        #             sh = client.open(ip)
+        #             ipIsThere = True
+        #             sheet = sh.add_worksheet(title=f.filename + ' ' + month + '-' + day + '-' + year + ': ' + h + ":" + m + ":" + s, rows="100", cols="100")
+        #         # #     print(sh.sheet1)
+        #         # else:
+        #         #     sh = client.create(ip)
+        #         #     sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
+        #
+        #     # for titles in titles_list:
+        #     #     if titles == ip:
+        #     #
+        #             # sh = client.open(ip)
+        #             # ipIsThere = True
+        #     if ipIsThere == False:
+        #         sh = client.create(ip)
+        #         # sh.share('calebkremer09@gmail.com', perm_type='user', role='writer')
+        #         # sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
+        #         sheet = sh.add_worksheet(title=f.filename + ' ' + month + '-' + day + '-' + year + ': ' + h + ':' + m + ':' + s, rows="100", cols="100")
+        #         # sh.del_worksheet('Sheet1')
+        #     # file = open("testfile.json","w")
+        #     # file.write(repr(response.json()))
+        #     # file.close()
+        #
+        #     # total = str(response.json()['total'])
+        #     link = response.json()['permalink']
+        #     detected = response.json()['positives']
+        #     tScans = response.json()['total']
+        #     sheet.update_cell(1, 1, f.filename)
+        #     sheet.update_cell(1, 2, day)
+        #     sheet.update_cell(1, 3, month)
+        #     sheet.update_cell(1, 4, year)
+        #     sheet.update_cell(1, 5, h)
+        #     sheet.update_cell(1, 6, m)
+        #     sheet.update_cell(1, 7, s)
+        #     sheet.update_cell(1, 8, link)
+        #     sheet.update_cell(1, 9, detected)
+        #     sheet.update_cell(1, 10, tScans)
+        #     # response.json()['scans'][0][0]
+        #     # print(response.json()['scans'][0]['detected'])
+        #     z = 3
+        #     y = 2
+        #     w = 2
+        #     # for a in response.json():
+        #     #     if a == 'scans':
+        #     #         sheet.update_cell(w,1,a)
+        #     #         for x in response.json()[a]:
+        #     #             # print(x)
+        #     #             sheet.update_cell(z, 1, x)
+        #     #             for i in response.json()[a][x]:
+        #     #                 sheet.update_cell(z, y, i + ": ")
+        #     #                 sheet.update_cell(z, y + 1, response.json()[a][x][i])
+        #     #                 y += 2
+        #     #             z += 1
+        #     #             y = 2
+        #     #             time.sleep(10)
+        #     #         w = z + 1
+        #     #     else:
+        #     #         sheet.update_cell(w,1,a)
+        #     #         sheet.update_cell(w,2,response.json(a))
+        #     #         w += 1
+        #
+        #             # print(response.json()['scans'][x][i])
+        #     # sheet = response.json()
+        #     # stuff = sheet.get_all_records()
+        #     # print(stuff)
+        #     # print(response.json())
+        #     # print(response.json()['permalink'])
+        #     message = Markup("<p>Upload Completed. This page will automatically reload in a few moments to show the results of the scan.</p><script>window.location.href='/scanResults?ip=" + ip + "';</script>")
+        #     flash(message)
+        # else:
+        message = Markup("<div><p>Upload Completed! Come later for the scan results</p></div>")
         return render_template('uploadResults.html')
 
 @app.route('/iotdatabase')

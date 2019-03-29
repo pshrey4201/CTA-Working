@@ -12,3 +12,4 @@ for spreadsheet in client.openall():
 # client.del_spreadsheet("1vy-yelmK_47eg9S-eS1aH88Vf9QX1S-YTDVHwuH2RlQ")
     print(spreadsheet)
     spreadsheet.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
+    spreadsheet.share('calebkremer09@gmail.com', perm_type='user', role='writer')
