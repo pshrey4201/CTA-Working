@@ -5,18 +5,52 @@ body{
   font-family: 'Roboto', sans-serif;
   /* margin-left: 3vw;
   margin-right: 3vw; */
-  margin: 1vh 1vw 1vh 1vw;
+  margin: 1vh 1vh 1vh 1vh;
   user-select: none;
   -moz-user-select: none;
+}
+textarea::-webkit-input-placeholder {
+  vertical-align: top;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2vh;
+  color: #F5F5F5;
+}
+
+textarea:-moz-placeholder { /* Firefox 18- */
+  vertical-align: top;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2vh;
+  color: #F5F5F5;
+}
+
+textarea::-moz-placeholder {  /* Firefox 19+ */
+  vertical-align: top;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2vh;
+  color: #F5F5F5;
+}
+
+textarea:-ms-input-placeholder {
+  vertical-align: top;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2vh;
+  color: #F5F5F5;
+}
+
+textarea::placeholder {
+  vertical-align: top;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2vh;
+  color: #F5F5F5;
 }
 .grid-container{
   width: 100vw;
   height: 100vh;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(14, 6.07142857143%);
+  grid-template-columns: repeat(14, 6.62053571429%);
   grid-template-rows: repeat(14, 6.07142857143%);
-  grid-gap: 1vh 1vw;
+  grid-gap: 1vh 1vh;
 }
 /* .grid-container *{box-sizing: border-box;} */
 /*-- our cleafix hack -- */
@@ -78,13 +112,16 @@ body{
   padding: 0;
   list-style-type: none;
   color: white;
+  z-index: 5;
 }
 #upEvents ul li{
   /* display: table-cell; */
   font-size: 2.25vh;
   padding: 1vh 0vw 1vh 0vw;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.35);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.05);
+  /* background-color: rgba(255,255,255,0.15); */
   /* background-color: rgba(255,255,255,0.05); */
+  filter:blur(5px);
   text-align: center;
   cursor: pointer;
 }
@@ -92,6 +129,7 @@ body{
   /* display: table-cell; */
   font-size: 2.7vh;
   /* padding: 1vh 0vw 1vh 0vw; */
+  background-color: rgba(255,255,255,0);
   border-bottom: solid 1px rgba(255, 255, 255, 0);
   text-align: center;
   cursor: pointer;
@@ -170,11 +208,6 @@ body{
   border: none;
   resize: none;
 }
-#quickNote #bottom #notes textarea::-moz-placeholder{
-  vertical-align: top;
-  font-family: 'Roboto', sans-serif;
-  font-size: 2vh;
-}
 #quickNote #bottom #title textarea{
   color: white;
   background-color: rgba(255,255,255,0);
@@ -185,11 +218,6 @@ body{
   border: none;
   font-size: 2vh;
   resize: none;
-}
-#quickNote #bottom #title textarea::-moz-placeholder{
-  vertical-align: text-top;
-  font-family: 'Roboto', sans-serif;
-  font-size: 2vh;
 }
 #email{
   grid-column: 8 / 12;
