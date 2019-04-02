@@ -56,7 +56,7 @@ socketio = SocketIO(app)
 #     return render_template('test.html')
 @app.route('/users2')
 def users2():
-    return render_template('users2.html')
+    return render_template('users.html')
 @app.route('/users')
 def users():
     # client = gspread.authorize(creds)

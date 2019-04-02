@@ -121,7 +121,7 @@ textarea::placeholder {
   border-bottom: solid 1px rgba(255, 255, 255, 0.05);
   /* background-color: rgba(255,255,255,0.15); */
   /* background-color: rgba(255,255,255,0.05); */
-  filter:blur(5px);
+    filter:blur(5px);
   text-align: center;
   cursor: pointer;
 }
@@ -162,6 +162,7 @@ textarea::placeholder {
   /* border-bottom: solid 1px rgba(255, 255, 255, 0.35); */
   text-align: center;
   cursor: pointer;
+    filter:blur(5px);
 }
 #quickNote #bottom{
   position: absolute;
@@ -184,6 +185,7 @@ textarea::placeholder {
   /* padding: 1vh 0vw 1vh 0vw; */
   /* border-bottom: solid 1px rgba(255, 255, 255, 0.35); */
   text-align: center;
+    filter:blur(5px);
   cursor: pointer;
 }
 #quickNote #bottom #notes{
@@ -196,6 +198,7 @@ textarea::placeholder {
   /* border-bottom: solid 1px rgba(255, 255, 255, 0.35); */
   text-align: center;
   cursor: pointer;
+    filter:blur(5px);
 }
 #quickNote #bottom #notes textarea{
   color: white;
@@ -250,6 +253,7 @@ textarea::placeholder {
   border-bottom: solid 1px rgba(255, 255, 255, 0.35);
   text-align: center;
   cursor: pointer;
+    filter:blur(5px);
 }
 #email #top li{
   /* display: table-cell; */
@@ -290,6 +294,7 @@ textarea::placeholder {
   border-bottom: solid 1px rgba(255, 255, 255, 0.35);
   text-align: center;
   cursor: pointer;
+    filter:blur(5px);
 }
 #notifications #top li{
   /* display: table-cell; */
@@ -385,10 +390,17 @@ textarea::placeholder {
   border-radius: 5px;
   /*filter: drop-shadow(5px 5px 1vh #222222);*/
   background-color: #00796B;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(14, 7.14285714286%);
+  grid-template-rows: repeat(10, 10%);
+  /* grid-gap: 1vh 1vh; */
 }
 #messageAdmin #top{
-  width: 100%;
-  height: auto;
+  grid-column: 1 / 15;
+  grid-row: 1 / 2;
+  /* width: 100%; */
+  /* height: auto; */
   margin: 0;
   padding: 0;
   list-style-type: none;
@@ -419,6 +431,101 @@ textarea::placeholder {
   text-align: center;
   cursor: pointer;
 }
+
+ #messageAdmin #msgSpace{
+  /* position: absolute; */
+
+}
+ #messageAdmin #msgSpace #userName{
+  /* position: absolute; */
+  /* top: 0%;
+  width: 100%;
+  height: 100%; */
+  z-index: 1000;
+  background: rgba(255,255,255,.20);
+  display: table;
+}
+ #messageAdmin #msgSpace #userName p{
+  display: table-cell;
+  /* color: white;*/
+  font-size: 25px;
+  text-align: center;
+  /* vertical-align: middle;*/
+  position: absolute;
+  top: 25%;
+  left: 34.9%;
+  /* top: 45%; */
+}
+ #messageAdmin #msgSpace #userName input{
+  /* position: absolute; */
+  top: 35%;
+  left: 25%;
+  border: 0;
+  padding: 10px;
+  width: 50%;
+  height: 10%;
+  margin: 0;
+  border-radius: 25px;
+  font-size: 25px;
+  background-color: rgba(255, 255, 255, 0.35);
+  text-align: center;
+  /* margin-right: .5%; */
+}
+ #messageAdmin #msgSpace #userName button{
+  /* position: absolute; */
+  top: 45%;
+  left: 10%;
+  border: 0;
+  padding: 10px;
+  width: 80%;
+  height: 10%;
+  margin: 0;
+  border-radius: 25px;
+  background-color: rgba(255, 255, 255, 0.0);
+  font-size: 25px;
+  /* margin-right: .5%; */
+}
+ #messageAdmin #messages{
+  /* position: absolute; */
+  width: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  height: 87.5%;
+  top: 0%;
+  overflow: auto;
+}
+ #messageAdmin #messages li{
+  list-style-type: none;
+  margin: 0;
+  padding: 5px 10px;
+  font-size: 25px;
+}
+ #messageAdmin #messages li:nth-child(odd){
+  background: rgba(255,255,255,0.5);
+}
+ #messageAdmin #myForm{
+  background-color: rgba(255,255,255,.0);
+  width: 99.7%;
+  height: 10%;
+  /* position: absolute; */
+  margin: 0;
+  left: 0%;
+  bottom: 0%;
+  border: 0;
+}
+ #messageAdmin #myForm input{
+  border: 0;
+  /* padding: 10px; */
+  width: 100%;
+  height: 95.5%;
+  margin: 0;
+  font-size: 25px;
+  background-color: rgba(255, 255, 255, 0.35);
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  /* margin-right: .5%; */
+}
 #schedule{
   grid-column: 2 / 8;
   grid-row: 9 / 15;
@@ -428,6 +535,7 @@ textarea::placeholder {
   display: grid;
   grid-template-columns: repeat(7, 14.2857142857%);
   grid-template-rows: repeat(15, 6.66666666667%);
+    filter:blur(5px);
 }
 #schedule #top{
   width: 100%;
