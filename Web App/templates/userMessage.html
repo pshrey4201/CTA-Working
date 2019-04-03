@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>User Panel Test 2</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/users3.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/userMessage.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   </head>
   <body>
-    <script src="{{ url_for('static',filename='js/users3.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/userMessage.js') }}"></script>
     <div class="grid-container">
       <div id="navbar">
         <ul>
@@ -320,178 +320,15 @@
           </li>
         </ul>
       </div>
-      <div id="upEvents">
+      <div id="userSpace">
         <ul id="top">
-          <li>Upcoming Events</li>
+          <li>Messages</li>
         </ul>
-        <ul>
-          <li>Team Meeting</li>
-          <li>Lunch with caleb</li>
-          <li>Get ready for SkillsUSA</li>
-        </ul>
+        <ul id="users">
+          <li>Shrey</li>
+          <li>Caleb</li>
+          <li>Jake</li>
       </div>
-      <div id="quickNote">
-        <ul id="top">
-          <li>Take a quick note...</li>
-        </ul>
-        <div id="bottom">
-          <div id="title">
-              <textarea name="text" placeholder="Title..." type="text"></textarea>
-          </div>
-          <div id="notes">
-              <textarea name="text" placeholder="Type the note here..." type="text"></textarea>
-          </div>
-        </div>
-      </div>
-      <div id="email">
-        <ul id="top">
-          <li>Recent Email</li>
-        </ul>
-        <ul>
-          <li>VirusTotal Confirmation</li>
-          <li>Skills USA Enrollment</li>
-          <li>Permission to edit test.exe</li>
-        </ul>
-      </div>
-      <div id="notifications">
-        <ul id="top">
-          <li>Notifications</li>
-        </ul>
-        <ul>
-          <li>Admin wants to chat with you ASAP, Admin Shrey is waiting to talk to you about the project you requested help for.</li>
-          <li>Shrey said HI!</li>
-          <li>Caleb wants to video conference</li>
-          <li>Skills USA deadline coming up!</li>
-          <li>Gabe is raging again ;)</li>
-        </ul>
-      </div>
-      <div id="lastMonth">
-        <ul id="top">
-          <li>Last Month</li>
-        </ul>
-        <ul>
-          <li>300 files</li>
-          <li>50 virus</li>
-          <li>20 admin alerts</li>
-          <li>Low Privilege mode</li>
-        </ul>
-      </div>
-      <div id="lastTFHours">
-        <ul id="top">
-          <li>Last 24 Hours</li>
-        </ul>
-        <ul>
-          <li>25 files</li>
-          <li>1 virus</li>
-          <li>trojan</li>
-          <li>test.exe</li>
-        </ul>
-      </div>
-      <div id="messageAdmin">
-        <ul id="top">
-          <li>Chat with an Admin</li>
-        </ul>
-        <form id="userName" action="">
-          <input id="userNameInput" autocomplete="off" type="text" placeholder="Enter a reason..." required/>
-          <textarea id="userProblem" placeholder="Enter an explanation here..." required></textarea>
-          <!-- <input id="button" type="button">Submit</input> -->
-          <button>Submit</button>
-        </form>
-        <ul id="messages"></ul>
-        <form id="myForm" action="">
-          <input id="bottomBar" autocomplete="off" type="text" placeholder="Enter message here...">
-           <!-- <button>Send</button> -->
-        </form>
-      </div>
-      <div id="schedule">
-        <ul id="top">
-          <li>Schedule for the month</li>
-        </ul>
-        <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=patelshrey4201%40gmail.com&amp;color=%231B887A&amp;ctz=America%2FNew_York" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-        <!-- <div id="scheduleDaySelector">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div> -->
-        <!-- <div id="first-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div> -->
-        <!-- <div id="second-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div>
-        <div id="third-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div>
-        <div id="fourth-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div>
-        <div id="fifth-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div>
-        <div id="sixth-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div>
-        <div id="seventh-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div> -->
-      </div>
-      <!-- <div id="tfCard">
-        <p>Last 24 Hours</p>
-        <ul>
-          <li>Recent File Scanned: </li>
-          <li>No. of Scans: </li>
-          <li>No. of Detected: </li>
-          <li>File Size: </li>
-        </ul>
-      </div>
-      <div id="alert"></div>
-      <div id="rightCard"></div> -->
     </div>
   </body>
 </html>

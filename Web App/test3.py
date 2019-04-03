@@ -23,7 +23,7 @@ reportUrl = 'https://www.virustotal.com/vtapi/v2/file/report'
 scanUrl = 'https://www.virustotal.com/vtapi/v2/file/scan'
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-# apikey = '53074e57c64d3b33a36d8bd638319b23295b20be787922febe3e6c6bc8f5ca1c'
+apikey = '53074e57c64d3b33a36d8bd638319b23295b20be787922febe3e6c6bc8f5ca1c'
 # db = yaml.load(open('db.yaml'))
 # app.config['MYSQL_HOST'] = db['mysql_host']
 # app.config['MYSQL_USER'] = db['mysql_user']
@@ -48,7 +48,7 @@ def index():
     #     mysql.connection.commit()
     #     cur.close()
     #     return 'success'
-    return render_template('test.html')
+    return render_template('index1.html')
     # return send_file('opYSCZFF.zip', as_attachment=True)
 socketio = SocketIO(app)
 # @app.route('/')
@@ -56,7 +56,10 @@ socketio = SocketIO(app)
 #     return render_template('test.html')
 @app.route('/users2')
 def users2():
-    return render_template('users.html')
+    return render_template('users3.html')
+@app.route('/userMessage')
+def userMessage():
+    return render_template('userMessage.html')
 @app.route('/users')
 def users():
     # client = gspread.authorize(creds)
@@ -121,7 +124,7 @@ def users():
     #     flash(message)
     # # print(oldhour)
     # # print(oldmin)
-    return render_template('users3.html')
+    return render_template('users.html')
 @app.route('/admin')
 def admin():
     client = gspread.authorize(creds)
@@ -144,21 +147,22 @@ def admin():
         h = sheet.cell(1,5).value
         m = sheet.cell(1,6).value
         s = sheet.cell(1,7).value
-        if int(datetime.datetime.now().strftime("%m")) - int(month) <= 1 and int(datetime.datetime.now().strftime("%d")) - int(day) <= 1 and int(datetime.datetime.now().strftime("%H")) - int(h) <= 24:
-            counter += 1
-            if int(datetime.datetime.now().strftime("%d")) - int(day) <= 1 and int(datetime.datetime.now().strftime("%H")) - int(h) <= 24:
-                dayCounter += 1
-            # print(counter)
-            # print(oldhour)
-            if int(h) >= oldhour and int(m) >= oldmin:
-                # print(m)
-                oldmin = int(m)
-                oldhour = int(h)
-                name = sheet.cell(1,1).value
-                link = sheet.cell(1,8).value
-                detected = sheet.cell(1,9).value
-                total = sheet.cell(1,10).value
-                # print(oldmin)
+        # if int(datetime.datetime.now().strftime("%m")) - int(month) <= 1 and int(datetime.datetime.now().strftime("%d")) - int(day) <= 1 and int(datetime.datetime.now().strftime("%H")) - int(h) <= 24:
+        #     counter += 1
+        #     if int(datetime.datetime.now().strftime("%d")) - int(day) <= 1 and int(datetime.datetime.now().strftime("%H")) - int(h) <= 24:
+        #         dayCounter += 1
+        #     # print(counter)
+        #     # print(oldhour)
+        #     if int(h) >= oldhour and int(m) >= oldmin:
+        #         # print(m)
+                # oldmin = int(m)
+                # oldhour = int(h)
+        name = sheet.cell(1,1).value
+        link = sheet.cell(1,8).value
+        detected = sheet.cell(1,9).value
+        total = sheet.cell(1,10).value
+        # print(oldmin)
+        print(name)
         q += 1
     message = Markup("<li>Statistics for IP Address: " + ip + "</li><li>Number Of Files Scanned in the past 24 Hours: " + str(dayCounter) + "</li><li>Number Of Files Scanned in the past Month: " + str(counter) + "</li><li>Last File Scanned: " + name + "</li><li>Number Of Antiviruses used: " + total + "</li><li>Number Of Antiviruses detecting Virus: " + detected + "</li>")
     flash(message)
