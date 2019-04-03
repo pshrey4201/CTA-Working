@@ -4,7 +4,10 @@
     <meta charset="utf-8">
     <title>User Panel Test 2</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/users3.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300|Eczar" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   </head>
   <body>
   <script src="{{ url_for('static',filename='js/users3.js') }}"></script>
@@ -388,25 +391,24 @@
       <ul id="top">
         <li>Chat with an Admin</li>
       </ul>
-      <div id="msgSpace">
-        <form id="userName" action="">
-          <p>Enter your Name: </p>
-          <input id="userNameInput" autocomplete="off" type="text" required/>
-          <!-- <button>Submit</button> -->
-        </form>
-        <ul id="messages"></ul>
-        <form id="myForm" action="">
-          <input id="bottomBar" autocomplete="off" type="text" placeholder="Enter message here...">
-           <!-- <button>Send</button> -->
-        </form>
-      </div>
+      <form id="userName" action="">
+        <input id="userNameInput" autocomplete="off" type="text" placeholder="Enter a reason..." required/>
+        <textarea id="userProblem" placeholder="Enter an explanation here..." required></textarea>
+        <!-- <input id="button" type="button">Submit</input> -->
+        <button>Submit</button>
+      </form>
+      <ul id="messages"></ul>
+      <form id="myForm" action="">
+        <input id="bottomBar" autocomplete="off" type="text" placeholder="Enter message here...">
+         <!-- <button>Send</button> -->
+      </form>
     </div>
     <div id="schedule">
       <ul id="top">
         <li>Schedule for the month</li>
       </ul>
-      <div id="scheduleMonthSelector"></div>
-      <div id="scheduleDaySelector">
+      <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=patelshrey4201%40gmail.com&amp;color=%231B887A&amp;ctz=America%2FNew_York" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+      <!-- <div id="scheduleDaySelector">
         <div id="scheduleBlocks-1"></div>
         <div id="scheduleBlocks-2"></div>
         <div id="scheduleBlocks-3"></div>
@@ -414,7 +416,7 @@
         <div id="scheduleBlocks-5"></div>
         <div id="scheduleBlocks-6"></div>
         <div id="scheduleBlocks-7"></div>
-      </div>
+      </div> -->
       <!-- <div id="first-row">
         <div id="scheduleBlocks-1"></div>
         <div id="scheduleBlocks-2"></div>

@@ -1,5 +1,12 @@
+* {
+    outline: none;
+    -moz-outline: none;
+}
+*::-moz-focus-inner{
+  border: 0;
+}
 body{
-  background-color: #CFD8DC;
+  background-color: #00BFA5;
   /* filter: invert(); */
   overflow: hidden;
   font-family: 'Roboto', sans-serif;
@@ -104,6 +111,7 @@ textarea::placeholder {
   list-style-type: none;
   color: white;
   background-color: #195e53;
+  border-radius: 5px;
 }
 #upEvents ul{
   width: 100%;
@@ -121,7 +129,7 @@ textarea::placeholder {
   border-bottom: solid 1px rgba(255, 255, 255, 0.05);
   /* background-color: rgba(255,255,255,0.15); */
   /* background-color: rgba(255,255,255,0.05); */
-    filter:blur(5px);
+    /*filter:blur(5px);*/
   text-align: center;
   cursor: pointer;
 }
@@ -154,6 +162,7 @@ textarea::placeholder {
   list-style-type: none;
   color: white;
   background-color: #195e53;
+  border-radius: 5px;
 }
 #quickNote #top li{
   /* display: table-cell; */
@@ -162,7 +171,7 @@ textarea::placeholder {
   /* border-bottom: solid 1px rgba(255, 255, 255, 0.35); */
   text-align: center;
   cursor: pointer;
-    filter:blur(5px);
+    /*filter:blur(5px);*/
 }
 #quickNote #bottom{
   position: absolute;
@@ -185,7 +194,7 @@ textarea::placeholder {
   /* padding: 1vh 0vw 1vh 0vw; */
   /* border-bottom: solid 1px rgba(255, 255, 255, 0.35); */
   text-align: center;
-    filter:blur(5px);
+    /*filter:blur(5px);*/
   cursor: pointer;
 }
 #quickNote #bottom #notes{
@@ -198,7 +207,7 @@ textarea::placeholder {
   /* border-bottom: solid 1px rgba(255, 255, 255, 0.35); */
   text-align: center;
   cursor: pointer;
-    filter:blur(5px);
+    /*filter:blur(5px);*/
 }
 #quickNote #bottom #notes textarea{
   color: white;
@@ -237,6 +246,7 @@ textarea::placeholder {
   list-style-type: none;
   color: white;
   background-color: #195e53;
+  border-radius: 5px;
 }
 #email ul{
   width: 100%;
@@ -250,10 +260,10 @@ textarea::placeholder {
   /* display: table-cell; */
   font-size: 2.25vh;
   padding: 1vh 0vw 1vh 0vw;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.35);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.05);
   text-align: center;
   cursor: pointer;
-    filter:blur(5px);
+    /*filter:blur(5px);*/
 }
 #email #top li{
   /* display: table-cell; */
@@ -278,6 +288,7 @@ textarea::placeholder {
   list-style-type: none;
   color: white;
   background-color: #195e53;
+  border-radius: 5px;
 }
 #notifications ul{
   width: 100%;
@@ -291,10 +302,10 @@ textarea::placeholder {
   /* display: table-cell; */
   font-size: 2.25vh;
   padding: 1vh 0vw 1vh 0vw;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.35);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.05);
   text-align: center;
   cursor: pointer;
-    filter:blur(5px);
+    /*filter:blur(5px);*/
 }
 #notifications #top li{
   /* display: table-cell; */
@@ -319,6 +330,7 @@ textarea::placeholder {
   list-style-type: none;
   color: white;
   background-color: #195e53;
+  border-radius: 5px;
 }
 #lastMonth ul{
   width: 100%;
@@ -332,7 +344,7 @@ textarea::placeholder {
   /* display: table-cell; */
   font-size: 2.25vh;
   padding: 1vh 0vw 1vh 0vw;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.35);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.05);
   text-align: center;
   cursor: pointer;
 }
@@ -359,6 +371,7 @@ textarea::placeholder {
   list-style-type: none;
   color: white;
   background-color: #195e53;
+  border-radius: 5px;
 }
 #lastTFHours ul{
   width: 100%;
@@ -372,7 +385,7 @@ textarea::placeholder {
   /* display: table-cell; */
   font-size: 2.25vh;
   padding: 1vh 0vw 1vh 0vw;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.35);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.05);
   text-align: center;
   cursor: pointer;
 }
@@ -392,12 +405,12 @@ textarea::placeholder {
   background-color: #00796B;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(14, 7.14285714286%);
+  grid-template-columns: repeat(2, 50%);
   grid-template-rows: repeat(10, 10%);
   /* grid-gap: 1vh 1vh; */
 }
 #messageAdmin #top{
-  grid-column: 1 / 15;
+  grid-column: 1 / 3;
   grid-row: 1 / 2;
   /* width: 100%; */
   /* height: auto; */
@@ -406,73 +419,124 @@ textarea::placeholder {
   list-style-type: none;
   color: white;
   background-color: #195e53;
+  border-radius: 5px;
 }
-#messageAdmin ul{
+/* #messageAdmin ul{
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
   list-style-type: none;
   color: white;
-}
-#messageAdmin ul li{
-  /* display: table-cell; */
+} */
+/* #messageAdmin ul li{
+  /* display: table-cell;
   font-size: 2.25vh;
   padding: 1vh 0vw 1vh 0vw;
   border-bottom: solid 1px rgba(255, 255, 255, 0.35);
   text-align: center;
   cursor: pointer;
-}
+} */
 #messageAdmin #top li{
   /* display: table-cell; */
   font-size: 2.7vh;
-  /* padding: 1vh 0vw 1vh 0vw; */
+  padding: 1vh 0vw 1vh 0vw;
   border-bottom: solid 1px rgba(255, 255, 255, 0);
   text-align: center;
   cursor: pointer;
 }
-
- #messageAdmin #msgSpace{
-  /* position: absolute; */
-
-}
- #messageAdmin #msgSpace #userName{
+ #messageAdmin #userName{
+   grid-column: 1 / 3;
+   grid-row: 2 / 11;
   /* position: absolute; */
   /* top: 0%;
   width: 100%;
   height: 100%; */
   z-index: 1000;
-  background: rgba(255,255,255,.20);
-  display: table;
+  background: rgba(255,255,255,.045);
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(14, 7.14285714286%);
+  grid-template-rows: repeat(10, 10%);
+  /* display: table; */
 }
- #messageAdmin #msgSpace #userName p{
-  display: table-cell;
-  /* color: white;*/
-  font-size: 25px;
-  text-align: center;
-  /* vertical-align: middle;*/
-  position: absolute;
-  top: 25%;
-  left: 34.9%;
-  /* top: 45%; */
-}
- #messageAdmin #msgSpace #userName input{
-  /* position: absolute; */
-  top: 35%;
-  left: 25%;
+ #messageAdmin #userName input{
+  grid-column: 4 / 12;
+  grid-row:  2 / 3;
   border: 0;
-  padding: 10px;
-  width: 50%;
-  height: 10%;
+  padding: 0;
+  width: 100%;
+  height: 100%;
   margin: 0;
-  border-radius: 25px;
+  border-radius: 5px;
+  font-size: 2.7vh;
+  background-color: rgba(255, 255, 255, 0.35);
+  text-align: center;
+  /* margin-right: .5%; */
+  /* transition: height .3s ease-in; */
+  overflow-x: hidden;
+  overflow-y: auto;
+  word-wrap: break-word;
+  white-space: initial;
+}
+#messageAdmin #userName textarea{
+ grid-column: 4 / 12;
+ grid-row:  4 / 7;
+ border: 0;
+ padding: 0;
+ width: 100%;
+ height: 100%;
+ margin: 0;
+ border-radius: 5px;
+ font-size: 2.5vh;
+ background-color: rgba(255, 255, 255, 0.35);
+ text-align: center;
+ /* margin-right: .5%; */
+ /* transition: height .3s ease-in; */
+ overflow-x: hidden;
+ overflow-y: auto;
+ resize: none;
+}
+#messageAdmin #userName textarea:-moz-placeholder { /* Firefox 18- */
+  vertical-align: top;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2.5vh;
+  color: black;
+}
+#messageAdmin #userName textarea::-moz-placeholder { /* Firefox 18- */
+  vertical-align: top;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2.5vh;
+  color: black;
+}
+#messageAdmin #userName button{
+  grid-column: 6 / 10;
+  grid-row:  8 / 9;
+  border: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 5px;
   font-size: 25px;
   background-color: rgba(255, 255, 255, 0.35);
   text-align: center;
   /* margin-right: .5%; */
+  /* transition: height .3s ease-in; */
+  /* overflow-x: hidden;
+  overflow-y: auto;
+  resize: none; */
 }
- #messageAdmin #msgSpace #userName button{
-  /* position: absolute; */
+/* #messageAdmin #userName input:focus{
+  height: 100%;
+  text-align: left;
+  float: left;
+  vertical-align: top;
+  word-wrap: break-word;
+  white-space: initial;
+} */
+ /* #messageAdmin  #userName button{
+  /* position: absolute;
   top: 45%;
   left: 10%;
   border: 0;
@@ -483,15 +547,17 @@ textarea::placeholder {
   border-radius: 25px;
   background-color: rgba(255, 255, 255, 0.0);
   font-size: 25px;
-  /* margin-right: .5%; */
-}
+  /* margin-right: .5%;
+} */
  #messageAdmin #messages{
   /* position: absolute; */
+  grid-column: 1 / 3;
+  grid-row: 2 / 10;
   width: 100%;
   list-style-type: none;
   margin: 0;
   padding: 0;
-  height: 87.5%;
+  /* height: 87.5%; */
   top: 0%;
   overflow: auto;
 }
@@ -500,30 +566,35 @@ textarea::placeholder {
   margin: 0;
   padding: 5px 10px;
   font-size: 25px;
+  color: white;
 }
  #messageAdmin #messages li:nth-child(odd){
   background: rgba(255,255,255,0.5);
+  color: black;
 }
  #messageAdmin #myForm{
-  background-color: rgba(255,255,255,.0);
-  width: 99.7%;
-  height: 10%;
+  background-color: rgba(255,255,255,0);
+  /* width: 99.7%; */
+  /* height: 10%; */
+  grid-row: 10 / 11;
+  grid-column: 1 / 3;
   /* position: absolute; */
   margin: 0;
   left: 0%;
   bottom: 0%;
   border: 0;
+  /* border-radius: 5px; */
 }
  #messageAdmin #myForm input{
   border: 0;
-  /* padding: 10px; */
+  padding: 0px;
   width: 100%;
-  height: 95.5%;
+  height: 100%;
   margin: 0;
   font-size: 25px;
   background-color: rgba(255, 255, 255, 0.35);
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
+  border-radius: 5px;
+  text-align: center;
   /* margin-right: .5%; */
 }
 #schedule{
@@ -535,7 +606,7 @@ textarea::placeholder {
   display: grid;
   grid-template-columns: repeat(7, 14.2857142857%);
   grid-template-rows: repeat(15, 6.66666666667%);
-    filter:blur(5px);
+    /*filter:blur(5px);*/
 }
 #schedule #top{
   width: 100%;
@@ -546,6 +617,7 @@ textarea::placeholder {
   list-style-type: none;
   color: white;
   background-color: #195e53;
+  border-radius: 5px;
 }
 #schedule ul{
   width: 100%;
@@ -559,7 +631,7 @@ textarea::placeholder {
   /* display: table-cell; */
   font-size: 2.25vh;
   padding: 1vh 0vw 1vh 0vw;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.35);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.05);
   text-align: center;
   cursor: pointer;
 }
@@ -570,6 +642,14 @@ textarea::placeholder {
   border-bottom: solid 1px rgba(255, 255, 255, 0);
   text-align: center;
   cursor: pointer;
+}
+#schedule iframe{
+  grid-column: 1 / 8;
+  grid-row: 3 / 16;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
 }
 #schedule #scheduleMonthSelector{
   background-color: rgba(255, 255, 255, 0.8);
