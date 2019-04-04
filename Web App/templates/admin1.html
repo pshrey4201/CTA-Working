@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>User Panel Test 2</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/userMessage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/admin1.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   </head>
   <body>
-    <script src="{{ url_for('static',filename='js/userMessage.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/users3.js') }}"></script>
     <div class="grid-container">
       <div id="navbar">
         <ul>
@@ -178,6 +178,25 @@
           </li>
         </ul>
         <ul id="bottom">
+          <li onmouseover="document.getElementById('userStatistics').style.width = '100%'; if(document.getElementById('userStatistics').style.width === '100%'){document.getElementById('userStatistics').style.display = 'block'}" onmouseout="document.getElementById('userStatistics').style.width = '0%'">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            	  height="1.5em" fill="white" viewBox="0 0 37.334 37.334" style="enable-background:new 0 0 37.334 37.334;"
+            	 xml:space="preserve">
+              <g>
+              	<g>
+              		<path d="M14.911,25.001H4.227c0-2.176,1.428-4.031,3.436-4.767c-0.431-0.438-0.744-1.104-0.901-2.109
+              			c-0.207,0.042-0.528-0.195-0.623-0.556c-0.097-0.367-0.16-0.96,0.049-1.017c0.062-0.017,0.127-0.005,0.19,0.028V15.56
+              			c0-1.606-0.378-2.55,2.247-2.819l-0.023-0.006c0,0,2.069-0.199,2.614-0.689c0,0,0.015,0.414,0.235,0.868
+              			c1.211,0.464,1.363,1.537,1.328,2.647v1.021c0.064-0.033,0.129-0.045,0.191-0.028c0.209,0.057,0.098,0.672,0.002,1.041
+              			c-0.094,0.357-0.365,0.57-0.57,0.532c-0.153,0.957-0.489,1.644-0.955,2.101C13.47,20.955,14.911,22.813,14.911,25.001z
+              			 M37.334,6.5v24.333H0V6.5H37.334z M35.334,8.5H2v20.333h33.334V8.5z M32.667,12.5H17.834v2h14.833V12.5z M32.667,17.667H17.834v2
+              			h14.833V17.667z M32.667,22.835H17.834v2h14.833V22.835z"/>
+              	</g>
+              </g>
+            </svg>
+            <br>
+            User Statistics
+          </li>
           <li>
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
             	 viewBox="0 0 50 50" height="1.5em" style="enable-background:new 0 0 50 50;" xml:space="preserve">
@@ -213,32 +232,188 @@
           </li>
         </ul>
       </div>
-      <div id="userSpace">
+      <div id="userStatistics" onmouseover="document.getElementById('userStatistics').style.width = '100%'" onmouseout="document.getElementById('userStatistics').style.width = '0%'">
         <ul id="top">
-          <li>Messages</li>
+          <li>Upcoming Events</li>
         </ul>
-        <table id="users">
-          <tr>
-            <td>Shrey</td>
-          </tr>
-          <tr>
-            <td>Caleb</td>
-          </tr>
-          <tr>
-            <td>Jake</td>
-          </tr>
-        </table>
+        <ul>
+          <li>Team Meeting</li>
+          <li>Lunch with caleb</li>
+          <li>Get ready for SkillsUSA</li>
+        </ul>
       </div>
-      <div id="msgSpace">
+      <div id="upEvents">
         <ul id="top">
-          <li>Messages</li>
+          <li>Upcoming Events</li>
         </ul>
+        <ul>
+          <li>Team Meeting</li>
+          <li>Lunch with caleb</li>
+          <li>Get ready for SkillsUSA</li>
+        </ul>
+      </div>
+      <div id="quickNote">
+        <ul id="top">
+          <li>Take a quick note...</li>
+        </ul>
+        <div id="bottom">
+          <div id="title">
+              <textarea name="text" placeholder="Title..." type="text"></textarea>
+          </div>
+          <div id="notes">
+              <textarea name="text" placeholder="Type the note here..." type="text"></textarea>
+          </div>
+        </div>
+      </div>
+      <div id="email">
+        <ul id="top">
+          <li>Recent Email</li>
+        </ul>
+        <ul>
+          <li>VirusTotal Confirmation</li>
+          <li>Skills USA Enrollment</li>
+          <li>Permission to edit test.exe</li>
+        </ul>
+      </div>
+      <div id="notifications">
+        <ul id="top">
+          <li>Notifications</li>
+        </ul>
+        <ul>
+          <li>Admin wants to chat with you ASAP, Admin Shrey is waiting to talk to you about the project you requested help for.</li>
+          <li>Shrey said HI!</li>
+          <li>Caleb wants to video conference</li>
+          <li>Skills USA deadline coming up!</li>
+          <li>Gabe is raging again ;)</li>
+        </ul>
+      </div>
+      <div id="lastMonth">
+        <ul id="top">
+          <li>Last Month</li>
+        </ul>
+        <ul>
+          <li>300 files</li>
+          <li>50 virus</li>
+          <li>20 admin alerts</li>
+          <li>Low Privilege mode</li>
+        </ul>
+      </div>
+      <div id="lastTFHours">
+        <ul id="top">
+          <li>Last 24 Hours</li>
+        </ul>
+        <ul>
+          <li>25 files</li>
+          <li>1 virus</li>
+          <li>trojan</li>
+          <li>test.exe</li>
+        </ul>
+      </div>
+      <div id="messageAdmin">
+        <ul id="top">
+          <li>Chat with an Admin</li>
+        </ul>
+        <form id="userName" action="">
+          <input id="userNameInput" autocomplete="off" type="text" placeholder="Enter a reason..." required/>
+          <textarea id="userProblem" placeholder="Enter an explanation here..." required></textarea>
+          <!-- <input id="button" type="button">Submit</input> -->
+          <button>Submit</button>
+        </form>
         <ul id="messages"></ul>
         <form id="myForm" action="">
           <input id="bottomBar" autocomplete="off" type="text" placeholder="Enter message here...">
            <!-- <button>Send</button> -->
         </form>
       </div>
+      <div id="schedule">
+        <ul id="top">
+          <li>Schedule for the month</li>
+        </ul>
+        <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=patelshrey4201%40gmail.com&amp;color=%231B887A&amp;ctz=America%2FNew_York" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        <!-- <div id="scheduleDaySelector">
+          <div id="scheduleBlocks-1"></div>
+          <div id="scheduleBlocks-2"></div>
+          <div id="scheduleBlocks-3"></div>
+          <div id="scheduleBlocks-4"></div>
+          <div id="scheduleBlocks-5"></div>
+          <div id="scheduleBlocks-6"></div>
+          <div id="scheduleBlocks-7"></div>
+        </div> -->
+        <!-- <div id="first-row">
+          <div id="scheduleBlocks-1"></div>
+          <div id="scheduleBlocks-2"></div>
+          <div id="scheduleBlocks-3"></div>
+          <div id="scheduleBlocks-4"></div>
+          <div id="scheduleBlocks-5"></div>
+          <div id="scheduleBlocks-6"></div>
+          <div id="scheduleBlocks-7"></div>
+        </div> -->
+        <!-- <div id="second-row">
+          <div id="scheduleBlocks-1"></div>
+          <div id="scheduleBlocks-2"></div>
+          <div id="scheduleBlocks-3"></div>
+          <div id="scheduleBlocks-4"></div>
+          <div id="scheduleBlocks-5"></div>
+          <div id="scheduleBlocks-6"></div>
+          <div id="scheduleBlocks-7"></div>
+        </div>
+        <div id="third-row">
+          <div id="scheduleBlocks-1"></div>
+          <div id="scheduleBlocks-2"></div>
+          <div id="scheduleBlocks-3"></div>
+          <div id="scheduleBlocks-4"></div>
+          <div id="scheduleBlocks-5"></div>
+          <div id="scheduleBlocks-6"></div>
+          <div id="scheduleBlocks-7"></div>
+        </div>
+        <div id="fourth-row">
+          <div id="scheduleBlocks-1"></div>
+          <div id="scheduleBlocks-2"></div>
+          <div id="scheduleBlocks-3"></div>
+          <div id="scheduleBlocks-4"></div>
+          <div id="scheduleBlocks-5"></div>
+          <div id="scheduleBlocks-6"></div>
+          <div id="scheduleBlocks-7"></div>
+        </div>
+        <div id="fifth-row">
+          <div id="scheduleBlocks-1"></div>
+          <div id="scheduleBlocks-2"></div>
+          <div id="scheduleBlocks-3"></div>
+          <div id="scheduleBlocks-4"></div>
+          <div id="scheduleBlocks-5"></div>
+          <div id="scheduleBlocks-6"></div>
+          <div id="scheduleBlocks-7"></div>
+        </div>
+        <div id="sixth-row">
+          <div id="scheduleBlocks-1"></div>
+          <div id="scheduleBlocks-2"></div>
+          <div id="scheduleBlocks-3"></div>
+          <div id="scheduleBlocks-4"></div>
+          <div id="scheduleBlocks-5"></div>
+          <div id="scheduleBlocks-6"></div>
+          <div id="scheduleBlocks-7"></div>
+        </div>
+        <div id="seventh-row">
+          <div id="scheduleBlocks-1"></div>
+          <div id="scheduleBlocks-2"></div>
+          <div id="scheduleBlocks-3"></div>
+          <div id="scheduleBlocks-4"></div>
+          <div id="scheduleBlocks-5"></div>
+          <div id="scheduleBlocks-6"></div>
+          <div id="scheduleBlocks-7"></div>
+        </div> -->
+      </div>
+      <!-- <div id="tfCard">
+        <p>Last 24 Hours</p>
+        <ul>
+          <li>Recent File Scanned: </li>
+          <li>No. of Scans: </li>
+          <li>No. of Detected: </li>
+          <li>File Size: </li>
+        </ul>
+      </div>
+      <div id="alert"></div>
+      <div id="rightCard"></div> -->
     </div>
   </body>
 </html>
