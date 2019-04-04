@@ -178,7 +178,7 @@
           </li>
         </ul>
         <ul id="bottom">
-          <li onmouseover="document.getElementById('userStatistics').style.width = '100%'; if(document.getElementById('userStatistics').style.width === '100%'){document.getElementById('userStatistics').style.display = 'block'}" onmouseout="document.getElementById('userStatistics').style.width = '0%'">
+          <li onmouseover="document.getElementById('userStatistics').style.width = '100%'; if(document.getElementById('userStatistics').style.width === '100%'){document.getElementById('userStatTop').style.display = 'table'; document.getElementById('userStatTopLi').style.display = 'table-cell'}" onmouseout="document.getElementById('userStatistics').style.width = '0%'; document.getElementById('userStatTop').style.display = 'none'; document.getElementById('userStatTopLi').style.display = 'none'">
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
             	  height="1.5em" fill="white" viewBox="0 0 37.334 37.334" style="enable-background:new 0 0 37.334 37.334;"
             	 xml:space="preserve">
@@ -233,14 +233,14 @@
         </ul>
       </div>
       <div id="userStatistics" onmouseover="document.getElementById('userStatistics').style.width = '100%'" onmouseout="document.getElementById('userStatistics').style.width = '0%'">
-        <ul id="top">
-          <li>Upcoming Events</li>
+        <ul id="userStatTop">
+          <li id="userStatTopLi">Upcoming Events</li>
         </ul>
-        <ul>
+        <!-- <ul>
           <li>Team Meeting</li>
           <li>Lunch with caleb</li>
           <li>Get ready for SkillsUSA</li>
-        </ul>
+        </ul> -->
       </div>
       <div id="upEvents">
         <ul id="top">
