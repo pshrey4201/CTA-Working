@@ -54,6 +54,18 @@ socketio = SocketIO(app)
 # @app.route('/')
 # def index():
 #     return render_template('test.html')
+@app.route('/adminMessages')
+def adminMessages():
+    return render_template('adminMessages.html')
+@app.route('/adminResults')
+def adminResults():
+    return render_template('adminResults.html')
+@app.route('/adminUpload')
+def adminUpload():
+    return render_template('adminUpload.html')
+@app.route('/userResults')
+def userResults():
+    return render_template('userResults.html')
 @app.route('/upload1')
 def upload1():
     return render_template("upload1.html")

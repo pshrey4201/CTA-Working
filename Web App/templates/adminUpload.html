@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8">
     <title>User Panel Test 2</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/users3.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/adminUpload.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   </head>
   <body>
-    <script src="{{ url_for('static',filename='js/users3.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/adminUpload.js') }}"></script>
     <div class="grid-container">
       <div id="navbar">
         <ul>
-          <li onclick="window.location.href='/users2'">
+          <li onclick="window.location.href='/admin1'">
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" fill="white" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                 height="1.5em" viewBox="0 0 63.699 63.699" style="enable-background:new 0 0 63.699 63.699;"
                xml:space="preserve">
@@ -34,7 +34,7 @@
             <br>
             Home
           </li>
-          <li onclick="window.location.href='/userResults'">
+          <li onclick="window.location.href='/adminResults'">
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                viewBox="0 0 36.822 36.822" height="1.5em"fill="white" style="enable-background:new 0 0 36.822 36.822;" xml:space="preserve">
             <g>
@@ -103,7 +103,7 @@
             <br>
             Calendar
           </li>
-          <li onclick="window.location.href='/userMessage'">
+          <li onclick="window.location.href='/adminMessages'">
             <svg viewBox="0 -26 512 512" fill="white" height="1.5em" xmlns="http://www.w3.org/2000/svg"><path d="m256 100c-5.519531 0-10 4.480469-10 10s4.480469 10 10 10 10-4.480469 10-10-4.480469-10-10-10zm0 0"/><path d="m90 280c5.519531 0 10-4.480469 10-10s-4.480469-10-10-10-10 4.480469-10 10 4.480469 10 10 10zm0 0"/><path d="m336 0c-90.027344 0-163.917969 62.070312-169.632812 140.253906-85.738282 4.300782-166.367188 66.125-166.367188 149.746094 0 34.945312 13.828125 68.804688 39 95.632812 4.980469 20.53125-1.066406 42.292969-16.070312 57.296876-2.859376 2.859374-3.714844 7.160156-2.167969 10.898437 1.546875 3.734375 5.191406 6.171875 9.238281 6.171875 28.519531 0 56.003906-11.183594 76.425781-30.890625 19.894531 6.78125 45.851563 10.890625 69.574219 10.890625 90.015625 0 163.898438-62.054688 169.628906-140.222656 20.9375-.929688 42.714844-4.796875 59.945313-10.667969 20.421875 19.707031 47.90625 30.890625 76.425781 30.890625 4.046875 0 7.691406-2.4375 9.238281-6.171875 1.546875-3.738281.691407-8.039063-2.167969-10.898437-15.003906-15.003907-21.050781-36.765626-16.070312-57.296876 25.171875-26.828124 39-60.6875 39-95.632812 0-86.886719-86.839844-150-176-150zm-160 420c-23.601562 0-50.496094-4.632812-68.511719-11.800781-3.859375-1.539063-8.269531-.527344-11.078125 2.539062-12.074218 13.199219-27.773437 22.402344-44.878906 26.632813 9.425781-18.058594 11.832031-39.347656 6.097656-59.519532-.453125-1.589843-1.292968-3.042968-2.445312-4.226562-22.6875-23.367188-35.183594-53.066406-35.183594-83.625 0-70.46875 71.4375-130 156-130 79.851562 0 150 55.527344 150 130 0 71.683594-67.289062 130-150 130zm280.816406-186.375c-1.152344 1.1875-1.992187 2.640625-2.445312 4.226562-5.734375 20.171876-3.328125 41.460938 6.097656 59.519532-17.105469-4.226563-32.804688-13.433594-44.878906-26.632813-2.808594-3.0625-7.21875-4.078125-11.078125-2.539062-15.613281 6.210937-37.886719 10.511719-58.914063 11.550781-2.921875-37.816406-21.785156-73.359375-54.035156-99.75h130.4375c5.523438 0 10-4.476562 10-10s-4.476562-10-10-10h-161.160156c-22.699219-11.554688-48.1875-18.292969-74.421875-19.707031 5.746093-67.164063 70.640625-120.292969 149.582031-120.292969 84.5625 0 156 59.53125 156 130 0 30.558594-12.496094 60.257812-35.183594 83.625zm0 0"/><path d="m256 260h-126c-5.523438 0-10 4.476562-10 10s4.476562 10 10 10h126c5.523438 0 10-4.476562 10-10s-4.476562-10-10-10zm0 0"/><path d="m256 320h-166c-5.523438 0-10 4.476562-10 10s4.476562 10 10 10h166c5.523438 0 10-4.476562 10-10s-4.476562-10-10-10zm0 0"/><path d="m422 100h-126c-5.523438 0-10 4.476562-10 10s4.476562 10 10 10h126c5.523438 0 10-4.476562 10-10s-4.476562-10-10-10zm0 0"/></svg>
             <br>
             Messages
@@ -134,7 +134,7 @@
             <br>
             Notes
           </li>
-          <li onclick="window.location.href='/upload1'">
+          <li onclick="window.location.href='/adminUpload'">
             <svg xmlns="http://www.w3.org/2000/svg" fill="white" height="1.5em" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg>
             <br>
             Upload
@@ -178,6 +178,25 @@
           </li>
         </ul>
         <ul id="bottom">
+          <li onmouseover="document.getElementById('userStatistics').style.width = '100%'; if(document.getElementById('userStatistics').style.width === '100%'){document.getElementById('userStatTop').style.display = 'table'; document.getElementById('userStatTopLi').style.display = 'table-cell'; document.getElementById('users').style.display = 'table'}" onmouseout="document.getElementById('userStatistics').style.width = '0%'; if(document.getElementById('userStatistics').style.width === '0%'){document.getElementById('userStatTop').style.display = 'none'; document.getElementById('userStatTopLi').style.display = 'none'; document.getElementById('users').style.display = 'none'}">
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                height="1.5em" fill="white" viewBox="0 0 37.334 37.334" style="enable-background:new 0 0 37.334 37.334;"
+               xml:space="preserve">
+              <g>
+                <g>
+                  <path d="M14.911,25.001H4.227c0-2.176,1.428-4.031,3.436-4.767c-0.431-0.438-0.744-1.104-0.901-2.109
+                    c-0.207,0.042-0.528-0.195-0.623-0.556c-0.097-0.367-0.16-0.96,0.049-1.017c0.062-0.017,0.127-0.005,0.19,0.028V15.56
+                    c0-1.606-0.378-2.55,2.247-2.819l-0.023-0.006c0,0,2.069-0.199,2.614-0.689c0,0,0.015,0.414,0.235,0.868
+                    c1.211,0.464,1.363,1.537,1.328,2.647v1.021c0.064-0.033,0.129-0.045,0.191-0.028c0.209,0.057,0.098,0.672,0.002,1.041
+                    c-0.094,0.357-0.365,0.57-0.57,0.532c-0.153,0.957-0.489,1.644-0.955,2.101C13.47,20.955,14.911,22.813,14.911,25.001z
+                     M37.334,6.5v24.333H0V6.5H37.334z M35.334,8.5H2v20.333h33.334V8.5z M32.667,12.5H17.834v2h14.833V12.5z M32.667,17.667H17.834v2
+                    h14.833V17.667z M32.667,22.835H17.834v2h14.833V22.835z"/>
+                </g>
+              </g>
+            </svg>
+            <br>
+            User Statistics
+          </li>
           <li>
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
               viewBox="0 0 52 52" height="1.5em" fill="white" style="enable-background:new 0 0 52 52;" xml:space="preserve">
@@ -218,178 +237,51 @@
           </li>
         </ul>
       </div>
-      <div id="upEvents">
-        <ul id="top">
-          <li>Upcoming Events</li>
+      <div id="userStatistics" onmouseover="document.getElementById('userStatistics').style.width = '100%'; if(document.getElementById('userStatistics').style.width === '100%'){document.getElementById('userStatTop').style.display = 'table'; document.getElementById('userStatTopLi').style.display = 'table-cell'; document.getElementById('users').style.display = 'table'}" onmouseout="document.getElementById('userStatistics').style.width = '0%'; if(document.getElementById('userStatistics').style.width === '0%'){document.getElementById('userStatTop').style.display = 'none'; document.getElementById('userStatTopLi').style.display = 'none'; document.getElementById('users').style.display = 'none'}">
+        <ul id="userStatTop">
+          <li id="userStatTopLi">Select a User</li>
         </ul>
-        <ul>
+        <table id="users">
+          <tr>
+            <td>Shrey</td>
+          </tr>
+          <tr>
+            <td>Caleb</td>
+          </tr>
+          <tr>
+            <td>Jake</td>
+          </tr>
+        </table>
+        <!-- <ul>
           <li>Team Meeting</li>
           <li>Lunch with caleb</li>
           <li>Get ready for SkillsUSA</li>
-        </ul>
+        </ul> -->
       </div>
-      <div id="quickNote">
-        <ul id="top">
-          <li>Take a quick note...</li>
-        </ul>
-        <div id="bottom">
-          <div id="title">
-              <textarea name="text" placeholder="Title..." type="text"></textarea>
-          </div>
-          <div id="notes">
-              <textarea name="text" placeholder="Type the note here..." type="text"></textarea>
-          </div>
-        </div>
+      <div id="uploadSpace">
+        <div id="upload"><form id="uploader" action="" method = "POST"
+    			enctype="multipart/form-data">
+    			<input type="file" name="file" id="file" onchange="showFile()" required/>
+          <label for="file"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" fill="white" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg><span id="filespan">  Drag or click here to upload a file to check for viruses&hellip;</span></label>
+    			<input type='submit' id='submit'/>
+          <label for='submit'>
+            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            	 viewBox="0 0 477.175 477.175" style="enable-background:new 0 0 477.175 477.175;" xml:space="preserve" fill="white" height=".75em">
+            <g>
+            	<path d="M360.731,229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1,0s-5.3,13.8,0,19.1l215.5,215.5l-215.5,215.5
+            		c-5.3,5.3-5.3,13.8,0,19.1c2.6,2.6,6.1,4,9.5,4c3.4,0,6.9-1.3,9.5-4l225.1-225.1C365.931,242.875,365.931,234.275,360.731,229.075z
+            		"/>
+            </g>
+            </svg>
+
+
+          <!-- <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129 129" width="20" height="17" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 129 129">
+            <g>
+              <path d="m40.4,121.3c-0.8,0.8-1.8,1.2-2.9,1.2s-2.1-0.4-2.9-1.2c-1.6-1.6-1.6-4.2 0-5.8l51-51-51-51c-1.6-1.6-1.6-4.2 0-5.8 1.6-1.6 4.2-1.6 5.8,0l53.9,53.9c1.6,1.6 1.6,4.2 0,5.8l-53.9,53.9z"/>
+            </g>
+          </svg> -->
+    		</form>
       </div>
-      <div id="email">
-        <ul id="top">
-          <li>Recent Email</li>
-        </ul>
-        <ul>
-          <li>VirusTotal Confirmation</li>
-          <li>Skills USA Enrollment</li>
-          <li>Permission to edit test.exe</li>
-        </ul>
-      </div>
-      <div id="notifications">
-        <ul id="top">
-          <li>Notifications</li>
-        </ul>
-        <ul>
-          <li>Admin wants to chat with you ASAP, Admin Shrey is waiting to talk to you about the project you requested help for.</li>
-          <li>Shrey said HI!</li>
-          <li>Caleb wants to video conference</li>
-          <li>Skills USA deadline coming up!</li>
-          <li>Gabe is raging again ;)</li>
-        </ul>
-      </div>
-      <div id="lastMonth">
-        <ul id="top">
-          <li>Last Month</li>
-        </ul>
-        <ul>
-          <li>300 files</li>
-          <li>50 virus</li>
-          <li>20 admin alerts</li>
-          <li>Low Privilege mode</li>
-        </ul>
-      </div>
-      <div id="lastTFHours">
-        <ul id="top">
-          <li>Last 24 Hours</li>
-        </ul>
-        <ul>
-          <li>25 files</li>
-          <li>1 virus</li>
-          <li>trojan</li>
-          <li>test.exe</li>
-        </ul>
-      </div>
-      <div id="messageAdmin">
-        <ul id="top">
-          <li>Chat with an Admin</li>
-        </ul>
-        <form id="userName" action="">
-          <input id="userNameInput" autocomplete="off" type="text" placeholder="Enter a reason..." required/>
-          <textarea id="userProblem" placeholder="Enter an explanation here..." required></textarea>
-          <!-- <input id="button" type="button">Submit</input> -->
-          <button>Submit</button>
-        </form>
-        <ul id="messages"></ul>
-        <form id="myForm" action="">
-          <input id="bottomBar" autocomplete="off" type="text" placeholder="Enter message here...">
-           <!-- <button>Send</button> -->
-        </form>
-      </div>
-      <div id="schedule">
-        <ul id="top">
-          <li>Schedule for the month</li>
-        </ul>
-        <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=patelshrey4201%40gmail.com&amp;color=%231B887A&amp;ctz=America%2FNew_York" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-        <!-- <div id="scheduleDaySelector">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div> -->
-        <!-- <div id="first-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div> -->
-        <!-- <div id="second-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div>
-        <div id="third-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div>
-        <div id="fourth-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div>
-        <div id="fifth-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div>
-        <div id="sixth-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div>
-        <div id="seventh-row">
-          <div id="scheduleBlocks-1"></div>
-          <div id="scheduleBlocks-2"></div>
-          <div id="scheduleBlocks-3"></div>
-          <div id="scheduleBlocks-4"></div>
-          <div id="scheduleBlocks-5"></div>
-          <div id="scheduleBlocks-6"></div>
-          <div id="scheduleBlocks-7"></div>
-        </div> -->
-      </div>
-      <!-- <div id="tfCard">
-        <p>Last 24 Hours</p>
-        <ul>
-          <li>Recent File Scanned: </li>
-          <li>No. of Scans: </li>
-          <li>No. of Detected: </li>
-          <li>File Size: </li>
-        </ul>
-      </div>
-      <div id="alert"></div>
-      <div id="rightCard"></div> -->
     </div>
   </body>
 </html>

@@ -96,7 +96,7 @@ textarea::placeholder {
 #navbar ul li:hover{
   background-color: rgba(255,255,255,0.25);
 }
-#uploadSpace{
+#resultSpace{
   grid-column: 2 / 15;
   grid-row: 1 / 15;
   color: white;
@@ -109,60 +109,95 @@ textarea::placeholder {
   grid-template-columns: repeat(2, 50%);
   grid-template-rows: repeat(14, 7.14285714286%);
 }
-#uploadSpace #upload{
-  /* position: absolute; */
-  /* width: 33.3%;
-  height: 50%; */
-  grid-row: 6 / 9;
+#resultSpace #headerTable{
   grid-column: 1 / 3;
-  cursor: pointer;
-  /* background-color: inherit; */
+  grid-row: 1 / 2;
+  /* width: 100%;
+  height: auto; */
+  margin: 0;
+  padding: 0;
+  /* list-style-type: none; */
+  color: white;
+  background-color: #195e53;
+  border-radius: 5px;
   display: table;
-  /* vertical-align: middle;
-  display: table; */
-  /* left: 33.3%; */
-  /* transition: background-color .35s ease-in; */
-  /* color: white; */
-  /* border: white solid 1px; */
+  font-size: 2.7vh;
 }
-/* #uploadSpace #upload:hover{
-  background-color: rgba(255,255,255,0.25);
-} */
-#uploadSpace #upload form{
-  display: table-cell;
-  /* color: white; */
-  font-size: 25px;
+#resultSpace #headerTable #header{
+  width: 100%;
+  /* height: 10px; */
+  background-color: rgba(156,147,206,0.0);
+  border: 1px white;
+}
+#resultSpace table #date{
+  width: 10%;
+  /* height: 7.5vh; */
+}
+#resultSpace table #time{
+  width: 10%;
+  /* height: 7.5vh; */
+}
+#resultSpace table #Name{
+  width: 50%;
+  /* height: 7.5vh; */
+}
+#resultSpace table #detected{
+  width: 15%;
+  /* height: 7.5vh; */
+}
+
+#resultSpace table #total{
+  width: 15%;
+  /* height: 7.5vh; */
+}
+#resultSpace #bottomSpan{
+  grid-column: 1 / 3;
+  grid-row: 2 / 15;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#resultSpace #list{
+  width: 100%;
+  height: 100%;
+  /* width: 100%;
+  height: auto; */
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  color: white;
+  /* background-color: #195e53; */
+  border-radius: 5px;
+  /* display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; */
+  /* overflow-x: hidden;
+  overflow-y: auto; */
+}
+#resultSpace #list tr{
+  /* box-sizing: border-box; */
+  display: table;
+  font-size: 2.25vh;
+  height: 7.5%;
+  width: 100%;
+  /* flex-basis: 0; */
+  /* padding: 1vh 0vw 1vh 0vw; */
+  /* border-bottom: solid 1px rgba(255, 255, 255, 0); */
   text-align: center;
+  cursor: pointer;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.05);
+  transition: background-color .35s ease-in;
+  border-radius: 5px;
   /* vertical-align: middle; */
-  /* position: relative; */
+}
+#resultSpace #list tr td{
+  /* width: 100%; */
+  height: 100%;
+  display: table-cell;
   vertical-align: middle;
-  /* top: 45%; */
+  border-radius: 5px;
 }
-#uploadSpace #upload form input{
-  width: 0.1px;
-  	height: 0.1px;
-  	opacity: 0;
-  	overflow: hidden;
-  	position: absolute;
-  	z-index: -1;
-}
-#uploadSpace #upload form input + label {
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 25px;
-    /* font-weight: 700; */
-    color: white;
-    /* background-color: black; */
-    display: inline-block;
-    cursor: pointer;
-    border-radius: 25px;
-    /* width: 40%; */
-    /* height: 50%; */
-    padding: 15px;
-    transition: background-color .35s ease-in;
-}
-#uploadSpace #upload form input:hover + label,
-#uploadSpace #upload form input + label:hover {
-    background-color: rgba(255,255,255,0.25);
+#resultSpace #list tr:hover{
+  background-color: rgba(255,255,255,0.25);
 }
