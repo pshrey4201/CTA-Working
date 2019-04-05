@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request, Markup, flash, send_file
+from flask import Flask, render_template, Response, request, Markup, flash, send_file, url_for,  session, redirect
 from flask_mysqldb import MySQL
 import yaml
 from camera import VideoCamera
@@ -12,7 +12,15 @@ import json
 import requests
 import socket
 import gspread
+from flask_pymongo import PyMongo
+from flask_bcrypt import Bcrypt
+import json
 from oauth2client.service_account import ServiceAccountCredentials
+app = Flask(__name__)
+crypt = Bcrypt(app)
+app.config['MONGO_DBNAME'] = 'login'
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/login'
+mongo = PyMongo(app)
 
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
@@ -21,7 +29,6 @@ creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', s
 serverIP = socket.gethostbyname(socket.gethostname())
 reportUrl = 'https://www.virustotal.com/vtapi/v2/file/report'
 scanUrl = 'https://www.virustotal.com/vtapi/v2/file/scan'
-app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 apikey = '53074e57c64d3b33a36d8bd638319b23295b20be787922febe3e6c6bc8f5ca1c'
 # db = yaml.load(open('db.yaml'))
@@ -32,6 +39,7 @@ apikey = '53074e57c64d3b33a36d8bd638319b23295b20be787922febe3e6c6bc8f5ca1c'
 # #Creates the mysql configuration
 # mysql = MySQL(app)
 #
+socketio = SocketIO(app)
 #When you add a route it assumes the user wants to go to the corrosponding directory/routes to the file
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -48,9 +56,40 @@ def index():
     #     mysql.connection.commit()
     #     cur.close()
     #     return 'success'
-    return render_template('index1.html')
+    if 'username' in session:
+        #Outputs the username for the session.
+        return render_template('users3.html')
+        #Returns the index.html page
+    return render_template('login.html')
+@app.route('/login', methods=['POST'])
+def login():
+    users = mongo.db.users
+    login_user = users.find_one({'name' : request.form['username']})
+    #Checks if the login user is valid
+    if login_user:
+        if  (crypt.check_password_hash(login_user['password'], request.form['pass'])):
+            session['username'] = request.form['username']
+            return redirect(url_for('index'))
+
+    return 'Invalid username/password combination'
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        users = mongo.db.users
+        existing_user = users.find_one({'name' : request.form['username']})
+
+        if existing_user is None:
+            #hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+            #Mongodb insert command
+            users.insert({'name': request.form['username'], 'password': crypt.generate_password_hash(request.form['password'])})
+
+            session['username'] = request.form['username']
+            return redirect(url_for('index'))
+
+        return 'That username already exists!'
+
+    return render_template('register.html')
     # return send_file('opYSCZFF.zip', as_attachment=True)
-socketio = SocketIO(app)
 # @app.route('/')
 # def index():
 #     return render_template('test.html')
