@@ -5,7 +5,7 @@
     <title>User Panel</title>
      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-     <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
      <script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   </head>
@@ -13,23 +13,13 @@
     <script src="{{ url_for('static',filename='js/login.js') }}"></script>
     <div class="grid-container">
       <div id='formContainer'>
-        <ul id='top'>
-          <li>Login/Sign Up</li>
-        </ul>
-        <form method=POST action="{{ url_for('login') }}">
-          <div>
-              <label for="exampleInputEmail1">Username</label>
-              <input type="text" name="username" placeholder="Username">
-          </div>
-          <div>
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" name="pass" placeholder="Password">
-          </div>
-          <button type="submit" class="btn btn-primary btn-block">Log In</button>
+        <form id="myForm" ethod=POST action="{{ url_for('login') }}">
+          <input id="email" type="text" name="email" placeholder="Email-Address" required>
+          <input id="password" type="password" name="pass" placeholder="Password" required>
+         <button type="submit" id="login">Secure Log In</button>
         </form>
-        <br>
-        <div>
-            Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a>.
+        <div id="registerContainer">
+          <a href="{{ url_for('register') }}">Sign up here</a>.
         </div>
       </div>
     </div>
