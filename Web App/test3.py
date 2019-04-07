@@ -45,30 +45,128 @@ socketio = SocketIO(app)
 #When you add a route it assumes the user wants to go to the corrosponding directory/routes to the file
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    #This will return the text test
-    # if request.method == 'POST':
-    #     #Gets the form data
-    #     userDetails = request.form
-    #     name = userDetails['name'] #This is the form value for the index page
-    #     email = userDetails['email'] #This is the form value for the index page
-    #     username = userDetails['user']
-    #     cur = mysql.connection.cursor()
-    #     #creates the connection
-    #     cur.execute("INSERT INTO users(name, email, user) VALUES(%s, %s, %s)",(name,email,user))
-    #     mysql.connection.commit()
-    #     cur.close()
-    #     return 'success'
-    users = mongo.db.users
     if 'email' in session:
+        users = mongo.db.users
         #Outputs the username for the session.
         login_user = users.find_one({'email' : session['email']})
+        dayFileCounter = 0
+        monthFileCounter = 0
+        monthFileVirusCounter = 0
+        monthFileVirusScansCounter = 0
+        day = datetime.datetime.now().strftime("%d")
+        month = datetime.datetime.now().strftime("%m")
+        year = datetime.datetime.now().strftime("%y")
+        h = datetime.datetime.now().strftime("%H")
+        m = datetime.datetime.now().strftime("%M")
+        s = datetime.datetime.now().strftime("%S")
         if login_user['admin'] == 'false':
             message = Markup(session['firstname'])
-            flash(message)
+            flash(message, 'username')
+            vt = mongo.db.virustotal
+            lastFile = vt.find({'email': session['email']}).sort([('_id', -1)]).limit(1)
+            empty = 0
+            print(lastFile.count())
+            if lastFile.count() == 0:
+                empty = 1
+            else:
+                for i in lastFile:
+                        latestFileName = i['fileName']
+                        latestFileDetected = str(i['Data']['positives'])
+                        latestFileVirusScans = str(i['Data']['total'])
+                        lastDate = i['month'] + '/' + i['day'] + '/' + i['year']
+            for i in vt.find({'email': session['email']}).sort([('_id', -1)]):
+                if i['year'] == year and i['month'] == month and (int(day) - int(i['day'])) <= 1:
+                    dayFileCounter += 1;
+                if i['year'] == year and (int(month) - int(i['month'])) <= 1:
+                    monthFileCounter += 1;
+                    monthFileVirusCounter += i['Data']['positives']
+                    monthFileVirusScansCounter += i['Data']['total']
+            if empty == 1:
+                message = Markup('''
+                        <li>''' + str(dayFileCounter) + ''' Files Scanned</li>
+                        <li>Last File: none</li>
+                        <li>Total Scans: none</li>
+                        <li>Total detected: none</li>
+                ''')
+                lastMonth = Markup('''
+                        <li>''' + str(monthFileCounter) + ''' Files Scanned</li>
+                        <li>Total Viruses Found: ''' + str(monthFileVirusCounter) + '''</li>
+                        <li>Total Antiviruses used to Scan: ''' + str(monthFileVirusScansCounter) + '''</li>
+                        <li>Last Date a file was Scanned: none</li>
+                ''')
+            else:
+                message = Markup('''
+                        <li>''' + str(dayFileCounter) + ''' Files Scanned</li>
+                        <li>Last File: ''' + latestFileName + '''</li>
+                        <li>Total Scans: ''' + latestFileVirusScans + '''</li>
+                        <li>Total detected: ''' + latestFileDetected + '''</li>
+                ''')
+                lastMonth = Markup('''
+                        <li>''' + str(monthFileCounter) + ''' Files Scanned</li>
+                        <li>Total Viruses Found: ''' + str(monthFileVirusCounter) + '''</li>
+                        <li>Total Antiviruses used to Scan: ''' + str(monthFileVirusScansCounter) + '''</li>
+                        <li>Last Date a file was Scanned: ''' + lastDate + '''</li>
+                ''')
+            flash(message, 'tfHours')
+            flash(lastMonth, 'lastMonth')
+            session['admin'] = 'false'
             return render_template('users3.html')
         else:
+            users = mongo.db.users
             message = Markup(session['firstname'])
-            flash(message)
+            flash(message, 'username')
+            vt = mongo.db.virustotal
+            lastFile = vt.find({'email': session['email']}).sort([('_id', -1)]).limit(1)
+            empty = 0
+            print(lastFile.count())
+            if lastFile.count() == 0:
+                empty = 1
+            else:
+                for i in lastFile:
+                        latestFileName = i['fileName']
+                        latestFileDetected = str(i['Data']['positives'])
+                        latestFileVirusScans = str(i['Data']['total'])
+                        lastDate = i['month'] + '/' + i['day'] + '/' + i['year']
+            for i in vt.find({'email': session['email']}).sort([('_id', -1)]):
+                if i['year'] == year and i['month'] == month and (int(day) - int(i['day'])) <= 1:
+                    dayFileCounter += 1;
+                if i['year'] == year and (int(month) - int(i['month'])) <= 1:
+                    monthFileCounter += 1;
+                    monthFileVirusCounter += i['Data']['positives']
+                    monthFileVirusScansCounter += i['Data']['total']
+            if empty == 1:
+                message = Markup('''
+                        <li>''' + str(dayFileCounter) + ''' Files Scanned</li>
+                        <li>Last File: none</li>
+                        <li>Total Scans: none</li>
+                        <li>Total detected: none</li>
+                ''')
+                lastMonth = Markup('''
+                        <li>''' + str(monthFileCounter) + ''' Files Scanned</li>
+                        <li>Total Viruses Found: ''' + str(monthFileVirusCounter) + '''</li>
+                        <li>Total Antiviruses used to Scan: ''' + str(monthFileVirusScansCounter) + '''</li>
+                        <li>Last Date a file was Scanned: none</li>
+                ''')
+            else:
+                message = Markup('''
+                        <li>''' + str(dayFileCounter) + ''' Files Scanned</li>
+                        <li>Last File: ''' + latestFileName + '''</li>
+                        <li>Total Scans: ''' + latestFileVirusScans + '''</li>
+                        <li>Total detected: ''' + latestFileDetected + '''</li>
+                ''')
+                lastMonth = Markup('''
+                        <li>''' + str(monthFileCounter) + ''' Files Scanned</li>
+                        <li>Total Viruses Found: ''' + str(monthFileVirusCounter) + '''</li>
+                        <li>Total Antiviruses used to Scan: ''' + str(monthFileVirusScansCounter) + '''</li>
+                        <li>Last Date a file was Scanned: ''' + lastDate + '''</li>
+                ''')
+            flash(message, 'tfHours')
+            flash(lastMonth, 'lastMonth')
+            for i in users.find():
+                if i['email'] != session['email']:
+                    message = Markup('''<tr onclick="window.location.href = '/adminUserStatistics?id=''' + str(i['_id']) + ''''"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
+                    flash(message, 'users')
+            session['admin'] = 'true'
             return render_template('admin1.html')
         #Returns the index.html page
     return render_template('login.html')
@@ -112,99 +210,172 @@ def register():
 def logout():
     session.clear()
     return redirect(url_for('index'))
+@app.route('/adminUserStatistics')
+def adminUserStatistics():
+    if 'email' in session:
+        if session['admin'] == 'true':
+            users = mongo.db.users
+            message = Markup(session['firstname'])
+            flash(message, 'username')
+            for i in users.find():
+                if i['email'] != session['email']:
+                    message = Markup('''<tr onclick="window.location.href = '/adminUserStatistics?id=''' + str(i['_id']) + ''''"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
+                    flash(message, 'users')
+            return render_template('adminUserStatistics.html')
+        else:
+            return redirect(url_for('index'))
+    else:
+        return redirect(url_for('index'))
 @app.route('/adminMessages')
 def adminMessages():
-    users = mongo.db.users
-    message = Markup(session['firstname'])
-    flash(message, 'username')
-    for i in users.find():
-        message = Markup("<tr><td>" + i['firstname'] + " " + i['lastname'] + "</td></tr>")
-        flash(message, 'users')
-    return render_template('adminMessages.html')
+    if 'email' in session:
+        if session['admin'] == 'true':
+            users = mongo.db.users
+            message = Markup(session['firstname'])
+            flash(message, 'username')
+            for i in users.find():
+                if i['email'] != session['email']:
+                    message = Markup('''<tr onclick="document.getElementById('receiverName').innerHTML = this.innerHTML; var table = document.getElementById('userMessage'); for(var i = 0, row; row = table.rows[i]; i++){row.style.backgroundColor = 'rgba(255,255,255,0)'}; this.style.backgroundColor = 'rgba(255, 255, 255, 0.35)';"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
+                    flash(message, 'userMessage')
+                    message = Markup('''<tr onclick="window.location.href = '/adminUserStatistics?id=''' + str(i['_id']) + ''''"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
+                    flash(message, 'users')
+            return render_template('adminMessages.html')
+        else:
+            return redirect(url_for('userMessage'))
+    else:
+        return redirect(url_for('index'))
 @app.route('/adminResults')
 def adminResults():
-    message = Markup(session['firstname'])
-    flash(message)
-    return render_template('adminResults.html')
+    if 'email' in session:
+        if session['admin'] == 'true':
+            users = mongo.db.users
+            vt = mongo.db.virustotal
+            message = Markup(session['firstname'])
+            flash(message, "username")
+            if vt.find({'email': session['email']}).sort([('_id',-1)]).count() == 0:
+                message = Markup('''<tr id="header"><td id="Name">No results found in the Database</td></tr>''')
+                flash(message, 'list')
+            else:
+                for i in vt.find({'email': session['email']}).sort([('_id',-1)]):
+                    message = Markup('''
+                                        <tr id="header">
+                                            <td id="date">''' + i['month'] + '''/''' + i['day'] + '''/''' + i['year'] + '''</td>
+                                            <td id="time">''' + i['hour'] + ''':''' + i['minute'] + ''':''' + i['second'] + '''</td>
+                                            <td id="Name">''' + i['fileName'] + '''</td>
+                                            <td id="total">''' + str(i['Data']['total']) + '''</td>
+                                            <td id="detected">''' + str(i['Data']['positives']) + '''</td>
+                                        </tr>
+                                    ''')
+                    flash(message, 'list')
+            for i in users.find():
+                if i['email'] != session['email']:
+                    message = Markup('''<tr onclick="window.location.href = '/adminUserStatistics?id=''' + str(i['_id']) + ''''"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
+                    flash(message, 'users')
+            return render_template('adminResults.html')
+        else:
+            return redirect(url_for('userResults'))
+    else:
+        return redirect(url_for('index'))
 @app.route('/adminUpload')
 def adminUpload():
-    message = Markup(session['firstname'])
-    flash(message)
-    return render_template('adminUpload.html')
+    if 'email' in session:
+        if session['admin'] == 'true':
+            users = mongo.db.users
+            message = Markup(session['firstname'])
+            flash(message, 'username')
+            for i in users.find():
+                if i['email'] != session['email']:
+                    message = Markup('''<tr onclick="window.location.href = '/adminUserStatistics?id=''' + str(i['_id']) + ''''"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
+                    flash(message, 'users')
+            return render_template('adminUpload.html')
+        else:
+            return redirect(url_for('upload1'))
+    else:
+        return redirect(url_for('index'))
 @app.route('/userResults')
 def userResults():
-    vt = mongo.db.virustotal
-    message = Markup(session['firstname'])
-    flash(message, "username")
-    for i in vt.find({'email': session['email']}).sort([('_id',-1)]):
-        if i is None:
-            message = Markup('''<tr id="header"><td id="Name">No results found in the Database</td></tr>''')
-            flash(message, 'list')
+    if 'email' in session:
+        if session['admin'] != 'true':
+            vt = mongo.db.virustotal
+            message = Markup(session['firstname'])
+            flash(message, "username")
+            if vt.find({'email': session['email']}).sort([('_id',-1)]).count() == 0:
+                message = Markup('''<tr id="header"><td id="Name">No results found in the Database</td></tr>''')
+                flash(message, 'list')
+            else:
+                for i in vt.find({'email': session['email']}).sort([('_id',-1)]):
+                    message = Markup('''
+                                        <tr id="header">
+                                            <td id="date">''' + i['month'] + '''/''' + i['day'] + '''/''' + i['year'] + '''</td>
+                                            <td id="time">''' + i['hour'] + ''':''' + i['minute'] + ''':''' + i['second'] + '''</td>
+                                            <td id="Name">''' + i['fileName'] + '''</td>
+                                            <td id="total">''' + str(i['Data']['total']) + '''</td>
+                                            <td id="detected">''' + str(i['Data']['positives']) + '''</td>
+                                        </tr>
+                                    ''')
+                    flash(message, 'list')
+            return render_template('userResults.html')
         else:
-            message = Markup('''
-                                <tr id="header">
-                                    <td id="date">''' + i['month'] + '''/''' + i['day'] + '''/''' + i['year'] + '''</td>
-                                    <td id="time">''' + i['hour'] + ''':''' + i['minute'] + ''':''' + i['second'] + '''</td>
-                                    <td id="Name">''' + i['name'] + '''</td>
-                                    <td id="total">''' + str(i['Data']['total']) + '''</td>
-                                    <td id="detected">''' + str(i['Data']['positives']) + '''</td>
-                                </tr>
-                            ''')
-            flash(message, 'list')
-    return render_template('userResults.html')
+            return redirect(url_for('adminResults'))
+    else:
+        return redirect(url_for('index'))
 @app.route('/upload1', methods=['POST', 'GET'])
 def upload1():
-    message = Markup(session['firstname'])
-    flash(message)
-    return render_template("upload1.html")
+    if 'email' in session:
+        if session['admin'] != 'true':
+            message = Markup(session['firstname'])
+            flash(message)
+            return render_template("upload1.html")
+        else:
+            return redirect(url_for('adminUpload'))
+    else:
+        return redirect(url_for('index'))
 @app.route('/uploader1', methods=['POST'])
 def uploader1():
-    client = MongoClient('localhost', 27017)
-    db = client['CSE']
-    #db_name = db['users']
     if 'email' in session:
-        mongusr = session['email']
-        if request.method == 'POST':
-            file = request.files['file']
-            file.save(file.filename)
-            name = file.filename;
-            params = {'apikey': apikey}
-            files = {'file': (name, open(name, 'rb'))}
-            response = requests.post(scanUrl, files=files, params=params)
-            resource = response.json()['resource']
-            params = {'apikey': apikey, 'resource': resource}
-            response = requests.get(reportUrl, params=params)
-            output = open('test.json', 'w')
-            json.dump(response.json(), output, indent=4)
-            day = datetime.datetime.now().strftime("%d")
-            month = datetime.datetime.now().strftime("%m")
-            year = datetime.datetime.now().strftime("%y")
-            h = datetime.datetime.now().strftime("%H")
-            m = datetime.datetime.now().strftime("%M")
-            s = datetime.datetime.now().strftime("%S")
-            mongo.db.virustotal.insert_one({"email" : mongusr, "Data" : response.json(), 'day': day, 'month': month, 'year': year, 'hour': h, 'minute': m, 'second': s, 'name': name})
-            client.close()
-        return redirect(url_for('userResults'))
-@app.route('/admin1')
-def admin1():
-    message = Markup(session['firstname'])
-    flash(message)
-    return render_template('admin1.html')
-@app.route('/users2')
-def users2():
-    message = Markup(session['firstname'])
-    flash(message)
-    return render_template('users3.html')
+        client = MongoClient('localhost', 27017)
+        db = client['CSE']
+        #db_name = db['users']
+        if 'email' in session:
+            mongusr = session['email']
+            if request.method == 'POST':
+                file = request.files['file']
+                file.save(file.filename)
+                name = file.filename;
+                params = {'apikey': apikey}
+                files = {'file': (name, open(name, 'rb'))}
+                response = requests.post(scanUrl, files=files, params=params)
+                resource = response.json()['resource']
+                params = {'apikey': apikey, 'resource': resource}
+                response = requests.get(reportUrl, params=params)
+                output = open('test.json', 'w')
+                json.dump(response.json(), output, indent=4)
+                day = datetime.datetime.now().strftime("%d")
+                month = datetime.datetime.now().strftime("%m")
+                year = datetime.datetime.now().strftime("%y")
+                h = datetime.datetime.now().strftime("%H")
+                m = datetime.datetime.now().strftime("%M")
+                s = datetime.datetime.now().strftime("%S")
+                mongo.db.virustotal.insert_one({"email" : mongusr, "Data" : response.json(), 'day': day, 'month': month, 'year': year, 'hour': h, 'minute': m, 'second': s, 'fileName': name})
+                client.close()
+            if session['admin'] == 'true':
+                return redirect(url_for('adminResults'))
+            else:
+                return redirect(url_for('userResults'))
 @app.route('/userMessage')
 def userMessage():
-    users = mongo.db.users
-    message = Markup(session['firstname'])
-    flash(message, 'username')
-    for i in users.find():
-        if i['email'] != session['email']:
-            message = Markup('''<tr onclick="document.getElementById('receiverName').innerHTML = this.innerHTML; var table = document.getElementById('users'); for(var i = 0, row; row = table.rows[i]; i++){row.style.backgroundColor = 'rgba(255,255,255,0)'}; this.style.backgroundColor = 'rgba(255, 255, 255, 0.35)';"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
-            flash(message, 'users')
-    return render_template('userMessage.html')
+    if 'email' in session:
+        if session['admin'] != 'true':
+            users = mongo.db.users
+            message = Markup(session['firstname'])
+            flash(message, 'username')
+            for i in users.find():
+                if i['email'] != session['email']:
+                    message = Markup('''<tr onclick="document.getElementById('receiverName').innerHTML = this.innerHTML; var table = document.getElementById('users'); for(var i = 0, row; row = table.rows[i]; i++){row.style.backgroundColor = 'rgba(255,255,255,0)'}; this.style.backgroundColor = 'rgba(255, 255, 255, 0.35)';"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
+                    flash(message, 'users')
+            return render_template('userMessage.html')
+        else:
+            return redirect(url_for('adminMessages'))
 @app.route('/users')
 def users():
     # client = gspread.authorize(creds)

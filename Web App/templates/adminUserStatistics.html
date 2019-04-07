@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>User Panel Test 2</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/adminResults.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/adminUserStatistics.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   </head>
   <body>
-    <script src="{{ url_for('static',filename='js/adminResults.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/adminUserStatistics.js') }}"></script>
     <div class="grid-container">
       <div id="navbar">
         <ul>
@@ -34,7 +34,7 @@
             <br>
             Home
           </li>
-          <li onclick="window.location.href='/'">
+          <li onclick="window.location.href='/adminResults'">
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                viewBox="0 0 36.822 36.822" height="1.5em"fill="white" style="enable-background:new 0 0 36.822 36.822;" xml:space="preserve">
             <g>
@@ -278,29 +278,51 @@
             {{ message }}
           {% endfor %}
         </table>
-        <!-- <ul>
-          <li>Team Meeting</li>
-          <li>Lunch with caleb</li>
-          <li>Get ready for SkillsUSA</li>
-        </ul> -->
       </div>
-      <div id="resultSpace">
-        <table id="headerTable">
-          <tr id="header">
-            <th id="date">Date:</th>
-            <th id="time">Time:</th>
-            <th id="Name">Name</th>
-            <th id="total">Total</th>
-            <th id="detected">Detected</th>
-          </tr>
-        </table>
-        <div id="bottomSpan">
-          <table id="list">
-            {% for message in get_flashed_messages(category_filter=["list"]) %}
-              {{ message }}
-            {% endfor %}
-          </table>
-        </div>
+      <div id="userInfo">
+
+      </div>
+      <div id="streaming">
+      </div>
+      <div id="upload">
+      </div>
+      <div id="scanResults">
+      </div>
+      <div id="lastMonth">
+        <ul id="top">
+          <li>Last Month</li>
+        </ul>
+        <ul>
+          {% for message in get_flashed_messages(category_filter=["lastMonth"]) %}
+            {{ message }}
+          {% endfor %}
+        </ul>
+      </div>
+      <div id="lastTFHours">
+        <ul id="top">
+          <li>Last 24 Hours</li>
+        </ul>
+        <ul>
+          {% for message in get_flashed_messages(category_filter=["tfHours"]) %}
+            {{ message }}
+          {% endfor %}
+        </ul>
+      </div>
+      <div id="messageAdmin">
+        <ul id="top">
+          <li>Chat with an Admin</li>
+        </ul>
+        <form id="userName" action="">
+          <input id="userNameInput" autocomplete="off" type="text" placeholder="Enter a reason..." required/>
+          <textarea id="userProblem" placeholder="Enter an explanation here..." required></textarea>
+          <!-- <input id="button" type="button">Submit</input> -->
+          <button>Submit</button>
+        </form>
+        <ul id="messages"></ul>
+        <form id="myForm" action="">
+          <input id="bottomBar" autocomplete="off" type="text" placeholder="Enter message here...">
+           <!-- <button>Send</button> -->
+        </form>
       </div>
     </div>
   </body>

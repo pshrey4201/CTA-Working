@@ -14,7 +14,7 @@
     <div class="grid-container">
       <div id="navbar">
         <ul>
-          <li onclick="window.location.href='/admin1'">
+          <li onclick="window.location.href='/'">
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" fill="white" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                 height="1.5em" viewBox="0 0 63.699 63.699" style="enable-background:new 0 0 63.699 63.699;"
                xml:space="preserve">
@@ -288,8 +288,8 @@
         <ul id="top">
           <li>Messages</li>
         </ul>
-        <table id="users">
-          {% for message in get_flashed_messages(category_filter=["users"]) %}
+        <table id="userMessage">
+          {% for message in get_flashed_messages(category_filter=["userMessage"]) %}
             {{ message }}
           {% endfor %}
         </table>
