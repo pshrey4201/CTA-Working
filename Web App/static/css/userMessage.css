@@ -159,6 +159,7 @@ textarea::placeholder {
   border-bottom: solid 1px rgba(255, 255, 255, 0);
   text-align: center;
   cursor: pointer;
+  border-radius: 5px;
   border-bottom: solid 1px rgba(255, 255, 255, 0.05);
   /* vertical-align: middle; */
 }

@@ -13,13 +13,15 @@ import requests
 import socket
 import gspread
 from flask_pymongo import PyMongo
+from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
 import json
 from oauth2client.service_account import ServiceAccountCredentials
+from os.path import join as pjoin
 app = Flask(__name__)
 crypt = Bcrypt(app)
 app.config['MONGO_DBNAME'] = 'login'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/login'
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/CSE'
 mongo = PyMongo(app)
 
 scope = ['https://spreadsheets.google.com/feeds',
@@ -56,19 +58,30 @@ def index():
     #     mysql.connection.commit()
     #     cur.close()
     #     return 'success'
-    if 'username' in session:
+    users = mongo.db.users
+    if 'email' in session:
         #Outputs the username for the session.
-        return render_template('users3.html')
+        login_user = users.find_one({'email' : session['email']})
+        if login_user['admin'] == 'false':
+            message = Markup(session['firstname'])
+            flash(message)
+            return render_template('users3.html')
+        else:
+            message = Markup(session['firstname'])
+            flash(message)
+            return render_template('admin1.html')
         #Returns the index.html page
     return render_template('login.html')
 @app.route('/login', methods=['POST'])
 def login():
     users = mongo.db.users
-    login_user = users.find_one({'name' : request.form['username']})
+    login_user = users.find_one({'email' : request.form['email']})
     #Checks if the login user is valid
     if login_user:
-        if  (crypt.check_password_hash(login_user['password'], request.form['pass'])):
-            session['username'] = request.form['username']
+        if  (crypt.check_password_hash(login_user['password'], request.form['password'])):
+            session['email'] = request.form['email']
+            session['firstname'] = login_user['firstname']
+            session['lastname'] = login_user['lastname']
             return redirect(url_for('index'))
 
     return 'Invalid username/password combination'
@@ -76,46 +89,121 @@ def login():
 def register():
     if request.method == 'POST':
         users = mongo.db.users
-        existing_user = users.find_one({'name' : request.form['username']})
+        existing_user = users.find_one({'email' : request.form['email']})
 
         if existing_user is None:
             #hashed = bcrypt.hashpw(password, bcrypt.gensalt())
             #Mongodb insert command
-            users.insert({'name': request.form['username'], 'password': crypt.generate_password_hash(request.form['password'])})
+            users.insert({'email': request.form['email'], 'password': crypt.generate_password_hash(request.form['password']), 'firstname': request.form['firstname'], 'lastname': request.form['lastname'], 'admin' : "false"})
 
-            session['username'] = request.form['username']
+            session['email'] = request.form['email']
+            session['firstname'] = request.form['firstname']
+            session['lastname'] = request.form['lastname']
             return redirect(url_for('index'))
 
-        return 'That username already exists!'
+        return 'That email already exists!'
 
     return render_template('register.html')
     # return send_file('opYSCZFF.zip', as_attachment=True)
 # @app.route('/')
 # def index():
 #     return render_template('test.html')
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 @app.route('/adminMessages')
 def adminMessages():
+    users = mongo.db.users
+    message = Markup(session['firstname'])
+    flash(message, 'username')
+    for i in users.find():
+        message = Markup("<tr><td>" + i['firstname'] + " " + i['lastname'] + "</td></tr>")
+        flash(message, 'users')
     return render_template('adminMessages.html')
 @app.route('/adminResults')
 def adminResults():
+    message = Markup(session['firstname'])
+    flash(message)
     return render_template('adminResults.html')
 @app.route('/adminUpload')
 def adminUpload():
+    message = Markup(session['firstname'])
+    flash(message)
     return render_template('adminUpload.html')
 @app.route('/userResults')
 def userResults():
+    vt = mongo.db.virustotal
+    message = Markup(session['firstname'])
+    flash(message, "username")
+    for i in vt.find({'email': session['email']}).sort([('_id',-1)]):
+        if i is None:
+            message = Markup('''<tr id="header"><td id="Name">No results found in the Database</td></tr>''')
+            flash(message, 'list')
+        else:
+            message = Markup('''
+                                <tr id="header">
+                                    <td id="date">''' + i['month'] + '''/''' + i['day'] + '''/''' + i['year'] + '''</td>
+                                    <td id="time">''' + i['hour'] + ''':''' + i['minute'] + ''':''' + i['second'] + '''</td>
+                                    <td id="Name">''' + i['name'] + '''</td>
+                                    <td id="total">''' + str(i['Data']['total']) + '''</td>
+                                    <td id="detected">''' + str(i['Data']['positives']) + '''</td>
+                                </tr>
+                            ''')
+            flash(message, 'list')
     return render_template('userResults.html')
-@app.route('/upload1')
+@app.route('/upload1', methods=['POST', 'GET'])
 def upload1():
+    message = Markup(session['firstname'])
+    flash(message)
     return render_template("upload1.html")
+@app.route('/uploader1', methods=['POST'])
+def uploader1():
+    client = MongoClient('localhost', 27017)
+    db = client['CSE']
+    #db_name = db['users']
+    if 'email' in session:
+        mongusr = session['email']
+        if request.method == 'POST':
+            file = request.files['file']
+            file.save(file.filename)
+            name = file.filename;
+            params = {'apikey': apikey}
+            files = {'file': (name, open(name, 'rb'))}
+            response = requests.post(scanUrl, files=files, params=params)
+            resource = response.json()['resource']
+            params = {'apikey': apikey, 'resource': resource}
+            response = requests.get(reportUrl, params=params)
+            output = open('test.json', 'w')
+            json.dump(response.json(), output, indent=4)
+            day = datetime.datetime.now().strftime("%d")
+            month = datetime.datetime.now().strftime("%m")
+            year = datetime.datetime.now().strftime("%y")
+            h = datetime.datetime.now().strftime("%H")
+            m = datetime.datetime.now().strftime("%M")
+            s = datetime.datetime.now().strftime("%S")
+            mongo.db.virustotal.insert_one({"email" : mongusr, "Data" : response.json(), 'day': day, 'month': month, 'year': year, 'hour': h, 'minute': m, 'second': s, 'name': name})
+            client.close()
+        return redirect(url_for('userResults'))
 @app.route('/admin1')
 def admin1():
+    message = Markup(session['firstname'])
+    flash(message)
     return render_template('admin1.html')
 @app.route('/users2')
 def users2():
+    message = Markup(session['firstname'])
+    flash(message)
     return render_template('users3.html')
 @app.route('/userMessage')
 def userMessage():
+    users = mongo.db.users
+    message = Markup(session['firstname'])
+    flash(message, 'username')
+    for i in users.find():
+        if i['email'] != session['email']:
+            message = Markup('''<tr onclick="document.getElementById('receiverName').innerHTML = this.innerHTML; var table = document.getElementById('users'); for(var i = 0, row; row = table.rows[i]; i++){row.style.backgroundColor = 'rgba(255,255,255,0)'}; this.style.backgroundColor = 'rgba(255, 255, 255, 0.35)';"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
+            flash(message, 'users')
     return render_template('userMessage.html')
 @app.route('/users')
 def users():
