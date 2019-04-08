@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>User Panel Test 2</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='css/adminUserStatistics.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/adminUserStatisticsUserResults.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   </head>
   <body>
-    <script src="{{ url_for('static',filename='js/adminUserStatistics.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/adminUserStatisticsUserResults.js') }}"></script>
     <div class="grid-container">
       <div id="navbar">
         <ul>
@@ -34,7 +34,7 @@
             <br>
             Home
           </li>
-          <li onclick="window.location.href='/adminResults'">
+          <li onclick="window.location.href='/'">
             <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                viewBox="0 0 36.822 36.822" height="1.5em"fill="white" style="enable-background:new 0 0 36.822 36.822;" xml:space="preserve">
             <g>
@@ -278,114 +278,29 @@
             {{ message }}
           {% endfor %}
         </table>
+        <!-- <ul>
+          <li>Team Meeting</li>
+          <li>Lunch with caleb</li>
+          <li>Get ready for SkillsUSA</li>
+        </ul> -->
       </div>
-      <div id="userInfo">
-        <ul id='top'>
-          <li>User Info</li>
-        </ul>
-        <ul>
-          <li id="profilePic">
-            <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-               viewBox="0 0 53 53" height="5em" style="enable-background:new 0 0 53 53;" xml:space="preserve">
-            <path style="fill:#E7ECED;" d="M18.613,41.552l-7.907,4.313c-0.464,0.253-0.881,0.564-1.269,0.903C14.047,50.655,19.998,53,26.5,53
-              c6.454,0,12.367-2.31,16.964-6.144c-0.424-0.358-0.884-0.68-1.394-0.934l-8.467-4.233c-1.094-0.547-1.785-1.665-1.785-2.888v-3.322
-              c0.238-0.271,0.51-0.619,0.801-1.03c1.154-1.63,2.027-3.423,2.632-5.304c1.086-0.335,1.886-1.338,1.886-2.53v-3.546
-              c0-0.78-0.347-1.477-0.886-1.965v-5.126c0,0,1.053-7.977-9.75-7.977s-9.75,7.977-9.75,7.977v5.126
-              c-0.54,0.488-0.886,1.185-0.886,1.965v3.546c0,0.934,0.491,1.756,1.226,2.231c0.886,3.857,3.206,6.633,3.206,6.633v3.24
-              C20.296,39.899,19.65,40.986,18.613,41.552z"/>
-            <g>
-              <path style="fill:#556080;" d="M26.953,0.004C12.32-0.246,0.254,11.414,0.004,26.047C-0.138,34.344,3.56,41.801,9.448,46.76
-                c0.385-0.336,0.798-0.644,1.257-0.894l7.907-4.313c1.037-0.566,1.683-1.653,1.683-2.835v-3.24c0,0-2.321-2.776-3.206-6.633
-                c-0.734-0.475-1.226-1.296-1.226-2.231v-3.546c0-0.78,0.347-1.477,0.886-1.965v-5.126c0,0-1.053-7.977,9.75-7.977
-                s9.75,7.977,9.75,7.977v5.126c0.54,0.488,0.886,1.185,0.886,1.965v3.546c0,1.192-0.8,2.195-1.886,2.53
-                c-0.605,1.881-1.478,3.674-2.632,5.304c-0.291,0.411-0.563,0.759-0.801,1.03V38.8c0,1.223,0.691,2.342,1.785,2.888l8.467,4.233
-                c0.508,0.254,0.967,0.575,1.39,0.932c5.71-4.762,9.399-11.882,9.536-19.9C53.246,12.32,41.587,0.254,26.953,0.004z"/>
-            </g>
-            </svg>
-          </li>
-          {% for message in get_flashed_messages(category_filter=["userInfo"]) %}
-            {{ message }}
-          {% endfor %}
-        </ul>
-      </div>
-      <div id="streaming">
-        <ul id="top">
-          <li>Stream</li>
-        </ul>
-        <ul id="bottom">
-          <li>Stream {% for message in get_flashed_messages(category_filter=["name"]) %}
-            {{ message}}{% endfor %}'s Computer</li>
-        </ul>
-      </div>
-      <div id="upload">
-        <ul id="top">
-          <li>Upload</li>
-        </ul>
-        <ul id="bottom">
-          <li><form id="uploader" action="/uploader1" method = "POST"
-      			enctype="multipart/form-data">
-      			<input type="file" name="file" id="file" onchange="showFile()" required/>
-            <label for="file"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" fill="white" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg><span id="filespan">Upload a File to {% for message in get_flashed_messages(category_filter=["name"]) %}
-              {{ message}}{% endfor %}'s Computer&hellip;</span></label>
-      			<input type='submit' id='submit'/>
-            <label for='submit'>
-              <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-              	 viewBox="0 0 477.175 477.175" style="enable-background:new 0 0 477.175 477.175;" xml:space="preserve" fill="white" height=".75em">
-              <g>
-              	<path d="M360.731,229.075l-225.1-225.1c-5.3-5.3-13.8-5.3-19.1,0s-5.3,13.8,0,19.1l215.5,215.5l-215.5,215.5
-              		c-5.3,5.3-5.3,13.8,0,19.1c2.6,2.6,6.1,4,9.5,4c3.4,0,6.9-1.3,9.5-4l225.1-225.1C365.931,242.875,365.931,234.275,360.731,229.075z
-              		"/>
-              </g>
-              </svg>
-
-
-            <!-- <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129 129" width="20" height="17" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 129 129">
-              <g>
-                <path d="m40.4,121.3c-0.8,0.8-1.8,1.2-2.9,1.2s-2.1-0.4-2.9-1.2c-1.6-1.6-1.6-4.2 0-5.8l51-51-51-51c-1.6-1.6-1.6-4.2 0-5.8 1.6-1.6 4.2-1.6 5.8,0l53.9,53.9c1.6,1.6 1.6,4.2 0,5.8l-53.9,53.9z"/>
-              </g>
-            </svg> -->
-      		</form></li>
-        </ul>
-      </div>
-      <div id="scanResults">
-        <ul id="top">
-          <li>Scan Results</li>
-        </ul>
-        <ul id="button">
-          <li onclick="window.location.href='/adminUserStatisticsUserResults?id={% for message in get_flashed_messages(category_filter=["id"]) %}{{message}}{% endfor %}'">{% for message in get_flashed_messages(category_filter=["name"]) %}{{ message}}{% endfor %}'s previous Scan results.</li>
-        </ul>
-      </div>
-      <div id="lastMonth">
-        <ul id="top">
-          <li>Last Month</li>
-        </ul>
-        <ul>
-          {% for message in get_flashed_messages(category_filter=["lastMonth"]) %}
-            {{ message }}
-          {% endfor %}
-        </ul>
-      </div>
-      <div id="lastTFHours">
-        <ul id="top">
-          <li>Last 24 Hours</li>
-        </ul>
-        <ul>
-          {% for message in get_flashed_messages(category_filter=["tfHours"]) %}
-            {{ message }}
-          {% endfor %}
-        </ul>
-      </div>
-      <div id="messageAdmin">
-        <ul id="top">
-          <li>Chat with {% for message in get_flashed_messages(category_filter=["name"]) %}
-            {{ message }}
-          {% endfor %}</li>
-        </ul>
-        <ul id="messages"></ul>
-        <form id="myForm" action="">
-          <input id="bottomBar" autocomplete="off" type="text" placeholder="Enter message here...">
-           <!-- <button>Send</button> -->
-        </form>
+      <div id="resultSpace">
+        <table id="headerTable">
+          <tr id="header">
+            <th id="date">Date:</th>
+            <th id="time">Time:</th>
+            <th id="Name">Name</th>
+            <th id="total">Total</th>
+            <th id="detected">Detected</th>
+          </tr>
+        </table>
+        <div id="bottomSpan">
+          <table id="list">
+            {% for message in get_flashed_messages(category_filter=["list"]) %}
+              {{ message }}
+            {% endfor %}
+          </table>
+        </div>
       </div>
     </div>
   </body>

@@ -16,6 +16,7 @@ from flask_pymongo import PyMongo
 from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
 import json
+from bson.objectid import ObjectId
 from oauth2client.service_account import ServiceAccountCredentials
 from os.path import join as pjoin
 app = Flask(__name__)
@@ -213,15 +214,120 @@ def logout():
 @app.route('/adminUserStatistics')
 def adminUserStatistics():
     if 'email' in session:
+        dayFileCounter = 0
+        monthFileCounter = 0
+        monthFileVirusCounter = 0
+        monthFileVirusScansCounter = 0
+        day = datetime.datetime.now().strftime("%d")
+        month = datetime.datetime.now().strftime("%m")
+        year = datetime.datetime.now().strftime("%y")
+        h = datetime.datetime.now().strftime("%H")
+        m = datetime.datetime.now().strftime("%M")
+        s = datetime.datetime.now().strftime("%S")
         if session['admin'] == 'true':
+            id = request.args.get('id')
             users = mongo.db.users
             message = Markup(session['firstname'])
             flash(message, 'username')
+            flash(id, 'id')
+            objectid = ObjectId(id)
+            for i in users.find({"_id" : objectid}):
+                message = Markup('''
+                    <li>First Name: ''' + i['firstname'] + '''</li>
+                    <li>Last Name: ''' + i['lastname'] + '''</li>
+                    <li>Email-Address: ''' + i['email'] + '''</li>
+                    <li>Admin: ''' + i['admin'] + '''</li>
+                ''')
+                flash(message, 'userInfo')
+                flash(i['firstname'], 'name')
+            vt = mongo.db.virustotal
+            lastFile = vt.find({'email': session['email']}).sort([('_id', -1)]).limit(1)
+            empty = 0
+            print(lastFile.count())
+            if lastFile.count() == 0:
+                empty = 1
+            else:
+                for i in lastFile:
+                        latestFileName = i['fileName']
+                        latestFileDetected = str(i['Data']['positives'])
+                        latestFileVirusScans = str(i['Data']['total'])
+                        lastDate = i['month'] + '/' + i['day'] + '/' + i['year']
+            for i in vt.find({'email': session['email']}).sort([('_id', -1)]):
+                if i['year'] == year and i['month'] == month and (int(day) - int(i['day'])) <= 1:
+                    dayFileCounter += 1;
+                if i['year'] == year and (int(month) - int(i['month'])) <= 1:
+                    monthFileCounter += 1;
+                    monthFileVirusCounter += i['Data']['positives']
+                    monthFileVirusScansCounter += i['Data']['total']
+            if empty == 1:
+                message = Markup('''
+                        <li>''' + str(dayFileCounter) + ''' Files Scanned</li>
+                        <li>Last File: none</li>
+                        <li>Total Scans: none</li>
+                        <li>Total detected: none</li>
+                ''')
+                lastMonth = Markup('''
+                        <li>''' + str(monthFileCounter) + ''' Files Scanned</li>
+                        <li>Total Viruses Found: ''' + str(monthFileVirusCounter) + '''</li>
+                        <li>Total Antiviruses used to Scan: ''' + str(monthFileVirusScansCounter) + '''</li>
+                        <li>Last Date a file was Scanned: none</li>
+                ''')
+            else:
+                message = Markup('''
+                        <li>''' + str(dayFileCounter) + ''' Files Scanned</li>
+                        <li>Last File: ''' + latestFileName + '''</li>
+                        <li>Total Scans: ''' + latestFileVirusScans + '''</li>
+                        <li>Total detected: ''' + latestFileDetected + '''</li>
+                ''')
+                lastMonth = Markup('''
+                        <li>''' + str(monthFileCounter) + ''' Files Scanned</li>
+                        <li>Total Viruses Found: ''' + str(monthFileVirusCounter) + '''</li>
+                        <li>Total Antiviruses used to Scan: ''' + str(monthFileVirusScansCounter) + '''</li>
+                        <li>Last Date a file was Scanned: ''' + lastDate + '''</li>
+                ''')
+            flash(message, 'tfHours')
+            flash(lastMonth, 'lastMonth')
             for i in users.find():
                 if i['email'] != session['email']:
                     message = Markup('''<tr onclick="window.location.href = '/adminUserStatistics?id=''' + str(i['_id']) + ''''"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
                     flash(message, 'users')
             return render_template('adminUserStatistics.html')
+        else:
+            return redirect(url_for('index'))
+    else:
+        return redirect(url_for('index'))
+@app.route('/adminUserStatisticsUserResults')
+def adminUserStatisticsUserResults():
+    if 'email' in session:
+        if session['admin'] == 'true':
+            id = request.args.get('id')
+            objectid = ObjectId(id)
+            users = mongo.db.users
+            vt = mongo.db.virustotal
+            message = Markup(session['firstname'])
+            flash(message, "username")
+            for i in users.find({"_id" : objectid}):
+                email = i['email']
+            if vt.find({'email': email}).sort([('_id',-1)]).count() == 0:
+                message = Markup('''<tr id="header"><td id="Name">No results found in the Database</td></tr>''')
+                flash(message, 'list')
+            else:
+                for i in vt.find({'email': email}).sort([('_id',-1)]):
+                    message = Markup('''
+                                        <tr id="header">
+                                            <td id="date">''' + i['month'] + '''/''' + i['day'] + '''/''' + i['year'] + '''</td>
+                                            <td id="time">''' + i['hour'] + ''':''' + i['minute'] + ''':''' + i['second'] + '''</td>
+                                            <td id="Name">''' + i['fileName'] + '''</td>
+                                            <td id="total">''' + str(i['Data']['total']) + '''</td>
+                                            <td id="detected">''' + str(i['Data']['positives']) + '''</td>
+                                        </tr>
+                                    ''')
+                    flash(message, 'list')
+            for i in users.find():
+                if i['email'] != session['email']:
+                    message = Markup('''<tr onclick="window.location.href = '/adminUserStatistics?id=''' + str(i['_id']) + ''''"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
+                    flash(message, 'users')
+            return render_template('adminUserStatisticsUserResults.html')
         else:
             return redirect(url_for('index'))
     else:
