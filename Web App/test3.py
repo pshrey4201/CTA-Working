@@ -181,6 +181,7 @@ def login():
             session['email'] = request.form['email']
             session['firstname'] = login_user['firstname']
             session['lastname'] = login_user['lastname']
+            users.update({'email': request.form['email']}, {'ip': request.form['ip']})
             return redirect(url_for('index'))
 
     return 'Invalid username/password combination'
@@ -193,7 +194,7 @@ def register():
         if existing_user is None:
             #hashed = bcrypt.hashpw(password, bcrypt.gensalt())
             #Mongodb insert command
-            users.insert({'email': request.form['email'], 'password': crypt.generate_password_hash(request.form['password']), 'firstname': request.form['firstname'], 'lastname': request.form['lastname'], 'admin' : "false"})
+            users.insert({'email': request.form['email'], 'password': crypt.generate_password_hash(request.form['password']), 'firstname': request.form['firstname'], 'lastname': request.form['lastname'], 'admin' : "false", 'ip': request.form['ip']})
 
             session['email'] = request.form['email']
             session['firstname'] = request.form['firstname']

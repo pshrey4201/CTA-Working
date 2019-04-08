@@ -10,7 +10,7 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   </head>
   <body>
-    <!-- <script src="{{ url_for('static',filename='js/login.js') }}"></script> -->
+    <script src="{{ url_for('static',filename='js/login.js') }}"></script>
     <div class="grid-container">
       <div id='formContainer'>
         <div id="topTagLine"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2100" height="1500" viewBox="0 0 2100 1500">
@@ -20,6 +20,7 @@
         <form id="myForm" method=POST action="{{ url_for('login') }}">
           <input id="email" type="text" name="email" placeholder="Email-Address" required>
           <input id="password" type="password" name="password" placeholder="Password" required>
+          <input type='hidden' id='ip' name='ip'>
           <button type="submit" id="login">Secure Log In</button>
         </form>
         <div id="registerContainer">
