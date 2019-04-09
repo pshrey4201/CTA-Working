@@ -4,7 +4,7 @@ import yaml
 from camera import VideoCamera
 import os
 from werkzeug import secure_filename
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 import urllib
 import time
 import datetime
@@ -181,10 +181,21 @@ def login():
             session['email'] = request.form['email']
             session['firstname'] = login_user['firstname']
             session['lastname'] = login_user['lastname']
-            users.update({'email': request.form['email']}, {'ip': request.form['ip']})
+            users.update({'email': request.form['email']}, {"$set": {"ip": request.form['ip']}})
             return redirect(url_for('index'))
-
     return 'Invalid username/password combination'
+@app.route('/extensionlogin', methods=['POST'])
+def extensionlogin():
+    users = mongo.db.users
+    login_user = users.find_one({'email' : request.form['email']})
+    #Checks if the login user is valid
+    if login_user:
+        if  (crypt.check_password_hash(login_user['password'], request.form['password'])):
+            session['email'] = request.form['email']
+            session['firstname'] = login_user['firstname']
+            session['lastname'] = login_user['lastname']
+            # users.update({'email': request.form['email']}, {"$set": {"ip": request.form['ip']}})
+            return redirect(url_for('index'))
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
@@ -210,6 +221,8 @@ def register():
 #     return render_template('test.html')
 @app.route('/logout')
 def logout():
+    users = mongo.db.users
+    users.update({'email': session['email']}, {"$set":{"ip": ""}})
     session.clear()
     return redirect(url_for('index'))
 @app.route('/adminUserStatistics')
@@ -237,10 +250,12 @@ def adminUserStatistics():
                     <li>First Name: ''' + i['firstname'] + '''</li>
                     <li>Last Name: ''' + i['lastname'] + '''</li>
                     <li>Email-Address: ''' + i['email'] + '''</li>
+                    <li>IP Address: '''  + i['ip'] + '''</li>
                     <li>Admin: ''' + i['admin'] + '''</li>
                 ''')
                 flash(message, 'userInfo')
                 flash(i['firstname'], 'name')
+                flash(i['ip'], 'userIp')
             vt = mongo.db.virustotal
             lastFile = vt.find({'email': session['email']}).sort([('_id', -1)]).limit(1)
             empty = 0
@@ -447,10 +462,10 @@ def uploader1():
             mongusr = session['email']
             if request.method == 'POST':
                 file = request.files['file']
-                file.save(file.filename)
+                file.save('virustotal/' + file.filename)
                 name = file.filename;
                 params = {'apikey': apikey}
-                files = {'file': (name, open(name, 'rb'))}
+                files = {'file': (name, open('virustotal/' + name, 'rb'))}
                 response = requests.post(scanUrl, files=files, params=params)
                 resource = response.json()['resource']
                 params = {'apikey': apikey, 'resource': resource}
@@ -836,110 +851,118 @@ def handle_my_custom_event( json ):
 
 @socketio.on('url')
 def handle_my_custom_event1(url, name, ip):
-    client = gspread.authorize(creds)
-    urllib.request.urlretrieve(url, name)
+    users = mongo.db.users
+    # client = gspread.authorize(creds)
+    urllib.request.urlretrieve(url, "virustotal/" + name)
     # print(ip)
     # print(name)
+    print(ip)
     day = datetime.datetime.now().strftime("%d")
     month = datetime.datetime.now().strftime("%m")
     year = datetime.datetime.now().strftime("%y")
     h = datetime.datetime.now().strftime("%H")
     m = datetime.datetime.now().strftime("%M")
     s = datetime.datetime.now().strftime("%S")
-    # print(date)
-    # print(t)
-    # print('Hi')
+    # # print(date)
+    # # print(t)
+    # # print('Hi')
+    for i in users.find({"ip" : ip}):
+        email = i['email']
+    mongusr = email
     params = {'apikey': apikey}
-    files = {'file': (name, open(name, 'rb'))}
+    files = {'file': (name, open("virustotal/" + name, 'rb'))}
     response = requests.post(scanUrl, files=files, params=params)
     # print(response.json())
     resource = response.json()['resource']
     # print(resource)
     params = {'apikey': apikey, 'resource': resource}
     response = requests.get(reportUrl, params=params)
-    # sh = client.open(ip)
-    # sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
-    # titles_list = []
-    ipIsThere = False
+    # # sh = client.open(ip)
+    # # sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
+    # # titles_list = []
+    # ipIsThere = False
     queue = "Your resource is queued for analysis"
     while response.json()['verbose_msg'] == queue:
         params = {'apikey': apikey, 'resource': resource}
         response = requests.get(reportUrl, params=params)
         time.sleep(10)
     if response.json()['verbose_msg'] != queue:
-        for spreadsheet in client.openall():
-            # print(spreadsheet.title)
-            # titles_list.append(spreadsheet.title)
-            if spreadsheet.title == ip:
-            # #     # print(spreadsheet.title + " " + spreadsheet.id)
-                # client.del_spreadsheet(spreadsheet.id)
-                sh = client.open(ip)
-                ipIsThere = True
-                sheet = sh.add_worksheet(title=name + ' ' + month + '-' + day + '-' + year + ': ' + h + ":" + m + ":" + s, rows="100", cols="100")
-            # #     print(sh.sheet1)
-            # else:
-            #     sh = client.create(ip)
-            #     sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
-
-        # for titles in titles_list:
-        #     if titles == ip:
-        #
-                # sh = client.open(ip)
-                # ipIsThere = True
-        if ipIsThere == False:
-            sh = client.create(ip)
-            # sh.share('calebkremer09@gmail.com', perm_type='user', role='writer')
-            # sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
-            sheet = sh.add_worksheet(title=name + ' ' + month + '-' + day + '-' + year + ': ' + h + ":" + m + ":" + s, rows="100", cols="100")
-            sh.del_worksheet('Sheet1')
-        # file = open("testfile.json","w")
-        # file.write(repr(response.json()))
-        # file.close()
-
-        # total = str(response.json()['total'])
-        link = response.json()['permalink']
-        detected = response.json()['positives']
-        tScans = response.json()['total']
-        sheet.update_cell(1, 1, name)
-        sheet.update_cell(1, 2, day)
-        sheet.update_cell(1, 3, month)
-        sheet.update_cell(1, 4, year)
-        sheet.update_cell(1, 5, h)
-        sheet.update_cell(1, 6, m)
-        sheet.update_cell(1, 7, s)
-        sheet.update_cell(1, 8, link)
-        sheet.update_cell(1, 9, detected)
-        sheet.update_cell(1, 10, tScans)
-        # response.json()['scans'][0][0]
-        # print(response.json()['scans'][0]['detected'])
-        z = 3
-        y = 2
-        w = 2
-        # for a in response.json():
-        #     if a == 'scans':
-        #         sheet.update_cell(w,1,a)
-        #         for x in response.json()[a]:
-        #             # print(x)
-        #             sheet.update_cell(z, 1, x)
-        #             for i in response.json()[a][x]:
-        #                 sheet.update_cell(z, y, i + ": ")
-        #                 sheet.update_cell(z, y + 1, response.json()[a][x][i])
-        #                 y += 2
-        #             z += 1
-        #             y = 2
-        #             time.sleep(10)
-        #         w = z + 1
-        #     else:
-        #         sheet.update_cell(w,1,a)
-        #         sheet.update_cell(w,2,response.json(a))
-        #         w += 1
-
-                # print(response.json()['scans'][x][i])
-        # sheet = response.json()
-        # stuff = sheet.get_all_records()
-        # print(stuff)
-        # print(response.json())
-        # print(response.json()['permalink'])
+        mongo.db.virustotal.insert_one({"email" : mongusr, "Data" : response.json(), 'day': day, 'month': month, 'year': year, 'hour': h, 'minute': m, 'second': s, 'fileName': name})
+        if response.json()['positives'] == 0:
+            emit('redirect', url)
+    #     for spreadsheet in client.openall():
+    #         # print(spreadsheet.title)
+    #         # titles_list.append(spreadsheet.title)
+    #         if spreadsheet.title == ip:
+    #         # #     # print(spreadsheet.title + " " + spreadsheet.id)
+    #             # client.del_spreadsheet(spreadsheet.id)
+    #             sh = client.open(ip)
+    #             ipIsThere = True
+    #             sheet = sh.add_worksheet(title=name + ' ' + month + '-' + day + '-' + year + ': ' + h + ":" + m + ":" + s, rows="100", cols="100")
+    #         # #     print(sh.sheet1)
+    #         # else:
+    #         #     sh = client.create(ip)
+    #         #     sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
+    #
+    #     # for titles in titles_list:
+    #     #     if titles == ip:
+    #     #
+    #             # sh = client.open(ip)
+    #             # ipIsThere = True
+    #     if ipIsThere == False:
+    #         sh = client.create(ip)
+    #         # sh.share('calebkremer09@gmail.com', perm_type='user', role='writer')
+    #         # sh.share('patelshrey4201@gmail.com', perm_type='user', role='writer')
+    #         sheet = sh.add_worksheet(title=name + ' ' + month + '-' + day + '-' + year + ': ' + h + ":" + m + ":" + s, rows="100", cols="100")
+    #         sh.del_worksheet('Sheet1')
+    #     # file = open("testfile.json","w")
+    #     # file.write(repr(response.json()))
+    #     # file.close()
+    #
+    #     # total = str(response.json()['total'])
+    #     link = response.json()['permalink']
+    #     detected = response.json()['positives']
+    #     tScans = response.json()['total']
+    #     sheet.update_cell(1, 1, name)
+    #     sheet.update_cell(1, 2, day)
+    #     sheet.update_cell(1, 3, month)
+    #     sheet.update_cell(1, 4, year)
+    #     sheet.update_cell(1, 5, h)
+    #     sheet.update_cell(1, 6, m)
+    #     sheet.update_cell(1, 7, s)
+    #     sheet.update_cell(1, 8, link)
+    #     sheet.update_cell(1, 9, detected)
+    #     sheet.update_cell(1, 10, tScans)
+    #     # response.json()['scans'][0][0]
+    #     # print(response.json()['scans'][0]['detected'])
+    #     z = 3
+    #     y = 2
+    #     w = 2
+    #     # for a in response.json():
+    #     #     if a == 'scans':
+    #     #         sheet.update_cell(w,1,a)
+    #     #         for x in response.json()[a]:
+    #     #             # print(x)
+    #     #             sheet.update_cell(z, 1, x)
+    #     #             for i in response.json()[a][x]:
+    #     #                 sheet.update_cell(z, y, i + ": ")
+    #     #                 sheet.update_cell(z, y + 1, response.json()[a][x][i])
+    #     #                 y += 2
+    #     #             z += 1
+    #     #             y = 2
+    #     #             time.sleep(10)
+    #     #         w = z + 1
+    #     #     else:
+    #     #         sheet.update_cell(w,1,a)
+    #     #         sheet.update_cell(w,2,response.json(a))
+    #     #         w += 1
+    #
+    #             # print(response.json()['scans'][x][i])
+    #     # sheet = response.json()
+    #     # stuff = sheet.get_all_records()
+    #     # print(stuff)
+    #     # print(response.json())
+    #     # print(response.json()['permalink'])
 
 def gen(VideoCamera):
     while True:

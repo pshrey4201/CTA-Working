@@ -2,7 +2,7 @@
    "name" : "Test",
    "version" : "0.1",
    "description" : "Test",
-   "permissions" : ["storage", "activeTab", "downloads", "declarativeContent"],
+   "permissions" : ["storage", "activeTab", "downloads", "declarativeContent", "http://192.168.1.16"],
    "background" : {
      "scripts" : ["background.js"],
      "persistent" : false

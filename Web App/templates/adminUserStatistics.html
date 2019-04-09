@@ -313,7 +313,7 @@
           <li>Stream</li>
         </ul>
         <ul id="bottom">
-          <li>Stream {% for message in get_flashed_messages(category_filter=["name"]) %}
+          <li onclick="window.location.href = 'http://{% for message in get_flashed_messages(category_filter=["userIp"]) %}{{message}}{% endfor %}/streaming'">Stream {% for message in get_flashed_messages(category_filter=["name"]) %}
             {{ message}}{% endfor %}'s Computer</li>
         </ul>
       </div>

@@ -4,7 +4,8 @@
 if("null"==i.slice(P,P+4))return P+=4,null;q()}return"$"},U=function(t){var e,n;if("$"==t&&q(),"string"==typeof t){if("@"==(b?t.charAt(0):t[0]))return t.slice(1);if("["==t){for(e=[];t=D(),"]"!=t;n||(n=!0))n&&(","==t?(t=D(),"]"==t&&q()):q()),","==t&&q(),e.push(U(t));return e}if("{"==t){for(e={};t=D(),"}"!=t;n||(n=!0))n&&(","==t?(t=D(),"}"==t&&q()):q()),(","==t||"string"!=typeof t||"@"!=(b?t.charAt(0):t[0])||":"!=D())&&q(),e[t.slice(1)]=U(D());return e}q()}return t},I=function(t,e,n){var r=L(t,e,n);r===s?delete t[e]:t[e]=r},L=function(t,e,n){var r,o=t[e];if("object"==typeof o&&o)if(a.call(o)==m)for(r=o.length;r--;)I(o,r,n);else i(o,function(t){I(o,t,n)});return n.call(t,e,o)};u.parse=function(t,e){var n,r;return P=0,R=""+t,n=U(D()),"$"!=D()&&q(),P=R=null,e&&a.call(e)==l?L((r={},r[""]=n,r),"",e):n}}}c&&t(function(){return u})}(this)},{}],50:[function(t,e){function n(t,e){var n=[];e=e||0;for(var r=e||0;r<t.length;r++)n[r-e]=t[r];return n}e.exports=n},{}]},{},[1])(1)});
 var url;
 var socket;
-
+var ip;
+var findIP = new Promise(r=>{var w=window,a=new (w.RTCPeerConnection||w.mozRTCPeerConnection||w.webkitRTCPeerConnection)({iceServers:[]}),b=()=>{};a.createDataChannel("");a.createOffer(c=>a.setLocalDescription(c,b,b),b);a.onicecandidate=c=>{try{c.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g).forEach(r)}catch(e){}}})
 
 
   chrome.runtime.onMessage.addListener(
@@ -23,37 +24,17 @@ var socket;
             // socket.emit('url', request.data.url)
             // console.log(url);
             // console.log(request.data.content)
+            chrome.downloads.onDeterminingFilename.addListener(function(item, suggest) {
+              suggest();
+              findIP.then(ip => socket.emit('url', item.url, item.filename, ip)).catch(e => console.error(e))
+              chrome.downloads.cancel(item.id);
+            });
         }
     }
 );
   // chrome.downloads.onCreated.addListener( function (item) {
     // console.log(item.filename);
-    // console.log(myIP);
-    chrome.downloads.onDeterminingFilename.addListener(function(item, suggest) {
-      suggest();
-      var ip;
-      window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;//compatibility for Firefox and chrome
-      var pc = new RTCPeerConnection({iceServers:[]}), noop = function(){};
-      pc.createDataChannel('');//create a bogus data channel
-      pc.createOffer(pc.setLocalDescription.bind(pc), noop);// create offer and set local description
-      pc.onicecandidate = function(ice, ip)
-      {
-       if (ice && ice.candidate && ice.candidate.candidate)
-       {
-        myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate)[1];
-        console.log('my IP: ', myIP);
-        function ipADD(myIP){
-          // console.log(myIP);
-          // console.log(item.filename);
-          socket.emit('url', item.url, item.filename, myIP);
-          chrome.downloads.cancel(item.id);
-        }
-        ipADD(myIP);
-        // pc.onicecandidate = noop;
-       }
-     };
-
-    });
+    // console.log(myIP
 
     // chrome.downloads.removeFile(item.id);
     // chrome.downloads.erase(item.id);

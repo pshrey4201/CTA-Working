@@ -1,5 +1,5 @@
 import cv2
-from mss.linux import MSS
+from mss.windows import MSS
 import numpy as np
 
 class VideoCamera(object):
