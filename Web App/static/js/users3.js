@@ -1,7 +1,7 @@
 var socket = io.connect("http://" + document.domain);
 $(function () {
 
-    var username;
+    // var username;
     var x = 100;
 //     document.getElementById('userNameInput').onchange = function() {
 //       // let username = document.getElementById('userNameInput').innerHTML;
@@ -12,7 +12,7 @@ $(function () {
 // console.log(userName);
     $('#userName').submit(function(l){
       l.preventDefault();
-      username = $('#userNameInput').val();
+      // username = $('#userNameInput').val();
       console.log(username);
       $('#userName').css('visibility', 'hidden');
       socket.emit( 'my event', {

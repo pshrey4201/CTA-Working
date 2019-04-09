@@ -66,6 +66,8 @@ def index():
             vt = mongo.db.virustotal
             lastFile = vt.find({'email': session['email']}).sort([('_id', -1)]).limit(1)
             empty = 0
+            for i in users.find({'email': session['email']}):
+                flash(i['_id'], 'userID')
             print(lastFile.count())
             if lastFile.count() == 0:
                 empty = 1
