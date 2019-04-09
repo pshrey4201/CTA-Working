@@ -1,7 +1,7 @@
 var socket = io.connect("http://" + document.domain);
 $(function () {
 
-    var username = "shrey";
+    // var username = "shrey";
     var x = 100;
 //     document.getElementById('userNameInput').onchange = function() {
 //       // let username = document.getElementById('userNameInput').innerHTML;

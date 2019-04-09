@@ -330,7 +330,7 @@ def adminUserStatisticsUserResults():
             else:
                 for i in vt.find({'email': email}).sort([('_id',-1)]):
                     message = Markup('''
-                                        <tr id="header">
+                                        <tr id="header" onclick="window.location.href=' ''' + i['Data']['permalink'] + ''' '">
                                             <td id="date">''' + i['month'] + '''/''' + i['day'] + '''/''' + i['year'] + '''</td>
                                             <td id="time">''' + i['hour'] + ''':''' + i['minute'] + ''':''' + i['second'] + '''</td>
                                             <td id="Name">''' + i['fileName'] + '''</td>
@@ -356,6 +356,8 @@ def adminMessages():
             message = Markup(session['firstname'])
             flash(message, 'username')
             for i in users.find():
+                if i['email'] == session['email']:
+                    flash(str(i['_id']), 'userID')
                 if i['email'] != session['email']:
                     message = Markup('''<tr onclick="document.getElementById('receiverName').innerHTML = this.innerHTML; var table = document.getElementById('userMessage'); for(var i = 0, row; row = table.rows[i]; i++){row.style.backgroundColor = 'rgba(255,255,255,0)'}; this.style.backgroundColor = 'rgba(255, 255, 255, 0.35)';"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
                     flash(message, 'userMessage')
@@ -380,7 +382,7 @@ def adminResults():
             else:
                 for i in vt.find({'email': session['email']}).sort([('_id',-1)]):
                     message = Markup('''
-                                        <tr id="header">
+                                        <tr id="header" onclick="window.location.href=' ''' + i['Data']['permalink'] + ''' '">
                                             <td id="date">''' + i['month'] + '''/''' + i['day'] + '''/''' + i['year'] + '''</td>
                                             <td id="time">''' + i['hour'] + ''':''' + i['minute'] + ''':''' + i['second'] + '''</td>
                                             <td id="Name">''' + i['fileName'] + '''</td>
@@ -427,7 +429,7 @@ def userResults():
             else:
                 for i in vt.find({'email': session['email']}).sort([('_id',-1)]):
                     message = Markup('''
-                                        <tr id="header">
+                                        <tr id="header" onclick="window.location.href=' ''' + i['Data']['permalink'] + ''' '">
                                             <td id="date">''' + i['month'] + '''/''' + i['day'] + '''/''' + i['year'] + '''</td>
                                             <td id="time">''' + i['hour'] + ''':''' + i['minute'] + ''':''' + i['second'] + '''</td>
                                             <td id="Name">''' + i['fileName'] + '''</td>
@@ -470,16 +472,34 @@ def uploader1():
                 resource = response.json()['resource']
                 params = {'apikey': apikey, 'resource': resource}
                 response = requests.get(reportUrl, params=params)
-                output = open('test.json', 'w')
-                json.dump(response.json(), output, indent=4)
+                # output = open('test.json', 'w')
+                # json.dump(response.json(), output, indent=4)
                 day = datetime.datetime.now().strftime("%d")
                 month = datetime.datetime.now().strftime("%m")
                 year = datetime.datetime.now().strftime("%y")
                 h = datetime.datetime.now().strftime("%H")
                 m = datetime.datetime.now().strftime("%M")
                 s = datetime.datetime.now().strftime("%S")
-                mongo.db.virustotal.insert_one({"email" : mongusr, "Data" : response.json(), 'day': day, 'month': month, 'year': year, 'hour': h, 'minute': m, 'second': s, 'fileName': name})
-                client.close()
+                notInQueue = "The requested resource is not among the finished, queued or pending scans"
+                while response.json()['verbose_msg'] == notInQueue:
+                    params = {'apikey': apikey}
+                    files = {'file': (name, open('virustotal/' + name, 'rb'))}
+                    response = requests.post(scanUrl, files=files, params=params)
+                    resource = response.json()['resource']
+                    params = {'apikey': apikey, 'resource': resource}
+                    response = requests.get(reportUrl, params=params)
+                    print(response.json())
+                    time.sleep(10)
+                    return Markup("<script>window.alert('Its taking a while to scan this file please wait 10s or go to another page!')")
+                queue = "Your resource is queued for analysis"
+                while response.json()['verbose_msg'] == queue:
+                    params = {'apikey': apikey, 'resource': resource}
+                    response = requests.get(reportUrl, params=params)
+                    time.sleep(10)
+                    return Markup("<script>window.alert('Its taking a while to scan this file please wait 10s or go to another page!')")
+                if response.json()['verbose_msg'] != queue:
+                    mongo.db.virustotal.insert_one({"email" : mongusr, "Data" : response.json(), 'day': day, 'month': month, 'year': year, 'hour': h, 'minute': m, 'second': s, 'fileName': name})
+                    client.close()
             if session['admin'] == 'true':
                 return redirect(url_for('adminResults'))
             else:
@@ -492,8 +512,10 @@ def userMessage():
             message = Markup(session['firstname'])
             flash(message, 'username')
             for i in users.find():
+                if i['email'] == session['email']:
+                    flash(str(i['_id']), 'userID')
                 if i['email'] != session['email']:
-                    message = Markup('''<tr onclick="document.getElementById('receiverName').innerHTML = this.innerHTML; var table = document.getElementById('users'); for(var i = 0, row; row = table.rows[i]; i++){row.style.backgroundColor = 'rgba(255,255,255,0)'}; this.style.backgroundColor = 'rgba(255, 255, 255, 0.35)';"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
+                    message = Markup('''<tr id="''' + str(i['_id']) + '''"onclick="document.getElementById('receiverName').innerHTML = this.innerHTML; document.getElementById('receiverName').setAttribute('name', this.id); var table = document.getElementById('users'); for(var i = 0, row; row = table.rows[i]; i++){row.style.backgroundColor = 'rgba(255,255,255,0)'}; this.style.backgroundColor = 'rgba(255, 255, 255, 0.35)';"><td>''' + i['firstname'] + ''' ''' + i['lastname'] + '''</td></tr>''')
                     flash(message, 'users')
             return render_template('userMessage.html')
         else:
